@@ -38,3 +38,16 @@ export const createProduct = async (productData) => {
     throw error
   }
 }
+
+export const updateProduct = async (productId, updatedData) => {
+  try {
+    const response = await Client.put(`/products/${productId}`, updatedData)
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error updating product:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
