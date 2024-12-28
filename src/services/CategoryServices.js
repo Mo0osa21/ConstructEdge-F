@@ -25,3 +25,16 @@ export const createCategory = async (categoryData) => {
     throw error
   }
 }
+
+export const updateCategory = async (categoryId, updatedData) => {
+  try {
+    const response = await Client.put(`/categories/${categoryId}`, updatedData)
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error updating category:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
