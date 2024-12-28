@@ -51,3 +51,16 @@ export const updateProduct = async (productId, updatedData) => {
     throw error
   }
 }
+
+export const deleteProduct = async (productId) => {
+  try {
+    const response = await Client.delete(`/products/${productId}`)
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error deleting product:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
