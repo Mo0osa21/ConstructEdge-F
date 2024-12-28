@@ -25,3 +25,13 @@ export const getUserOrders = async () => {
     throw error
   }
 }
+
+export const placeOrder = async (orderData) => {
+  try {
+    const response = await Client.post('/orders', orderData)
+    return response.data
+  } catch (error) {
+    console.error('Error placing order:', error.response?.data || error.message)
+    throw error
+  }
+}
