@@ -12,3 +12,16 @@ export const getAllOrders = async () => {
     throw error
   }
 }
+
+export const getUserOrders = async () => {
+  try {
+    const response = await Client.get('/orders/user')
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error fetching user orders:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
