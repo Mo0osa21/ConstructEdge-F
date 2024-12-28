@@ -38,3 +38,16 @@ export const updateCategory = async (categoryId, updatedData) => {
     throw error
   }
 }
+
+export const deleteCategory = async (categoryId) => {
+  try {
+    const response = await Client.delete(`/categories/${categoryId}`)
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error deleting category:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
