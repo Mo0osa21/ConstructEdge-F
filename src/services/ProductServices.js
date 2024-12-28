@@ -25,3 +25,16 @@ export const getProduct = async (productId) => {
     throw error
   }
 }
+
+export const createProduct = async (productData) => {
+  try {
+    const response = await Client.post('/products', productData)
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error creating product:',
+      error.response?.data || error.message
+    )
+    throw error
+  }
+}
