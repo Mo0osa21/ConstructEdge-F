@@ -39,7 +39,7 @@ const EditProductForm = () => {
     try {
       await updateProduct(productId, productData)
       alert('Product updated successfully!')
-      navigate('/products') 
+      navigate('/products')
     } catch (err) {
       console.error('Error updating product:', err)
       setError('Failed to update product. Please try again.')
@@ -49,4 +49,71 @@ const EditProductForm = () => {
   if (error) {
     return <p className="error-message">{error}</p>
   }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={productData.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <textarea
+          name="description"
+          value={productData.description}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Price:</label>
+        <input
+          type="number"
+          name="price"
+          value={productData.price}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          name="imageUrl"
+          value={productData.imageUrl}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Category:</label>
+        <input
+          type="text"
+          name="category"
+          value={productData.category}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Stock Quantity:</label>
+        <input
+          type="number"
+          name="stockQuantity"
+          value={productData.stockQuantity}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <button type="submit">Update Product</button>
+    </form>
+  )
 }
+
+export default EditProductForm
