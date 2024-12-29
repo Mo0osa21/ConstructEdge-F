@@ -13,6 +13,7 @@ import OrdersPage from './pages/OrdersPage'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
+import UserOrders from './pages/UserOrders'
 const App = () => {
   const [user, setUser] = useState(null)
 
@@ -43,10 +44,11 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path='/products' element={<ProductsPage/>}/>
+          <Route path="/products" element={<ProductsPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/userorders" element={<UserOrders />} />
         </Routes>
       </main>
     </div>
