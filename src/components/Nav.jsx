@@ -5,6 +5,9 @@ const Nav = ({ user, handleLogOut }) => {
   if (user) {
     userOptions = (
       <nav>
+
+        <h3>Welcome {user.email} to Construct Edge!</h3>
+        <Link to="/products">products</Link>
         <h3>Welcome {user.email}!</h3>
         <Link onClick={handleLogOut} to="/">
           Sign Out
@@ -25,11 +28,7 @@ const Nav = ({ user, handleLogOut }) => {
     <header>
       <Link to="/">
         <div className="logo-wrapper" alt="logo">
-          <img
-            className="logo"
-            src="https://avatars.dicebear.com/api/gridy/app.svg"
-            alt="welcome banner"
-          />
+          
         </div>
       </Link>
       {user ? userOptions : publicOptions}
