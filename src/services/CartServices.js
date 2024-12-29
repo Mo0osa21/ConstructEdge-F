@@ -1,8 +1,8 @@
 import Client from './api'
 
-export const addToCart = async (productId, quantity) => {
+export const addToCart = async (products) => {
   try {
-    const response = await Client.post('/cart/add', { productId, quantity })
+    const response = await Client.post('/cart/add', { products })
     return response.data
   } catch (error) {
     console.error(
