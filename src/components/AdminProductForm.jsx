@@ -10,4 +10,10 @@ const AdminProductForm = () => {
     category: '',
     stockQuantity: '',
   })
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setProductData({...productData,[name]: value,})
+  }
+
+  
 }
