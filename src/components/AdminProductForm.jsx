@@ -46,6 +46,26 @@ const AdminProductForm = () => {
           required
         />
       </div>
+      <div>
+        <label>Description:</label>
+        <textarea
+          name="description"
+          value={productData.description}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Price:</label>
+        <input
+          type="number"
+          name="price"
+          value={productData.price}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
       </form>
   )
 
