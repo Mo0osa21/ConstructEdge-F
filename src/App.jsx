@@ -4,12 +4,14 @@ import Nav from './components/Nav'
 import Register from './pages/Register'
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
+
 import ProductsPage from './pages/Products'
 import AdminPage from './pages/AdminPage'
+
+import CartPage from './pages/CartPage'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
-
 const App = () => {
   const [user, setUser] = useState(null)
 
@@ -40,9 +42,13 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
+
           <Route path='/products' element={<ProductsPage/>}/>
           <Route path="/admin" element={<AdminPage />} />
           
+
+          <Route path="/cart" element={<CartPage />} />
+
         </Routes>
       </main>
     </div>
