@@ -65,6 +65,16 @@ const AdminProductForm = () => {
           required
         />
       </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          name="imageUrl"
+          value={productData.imageUrl}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
       </form>
   )
