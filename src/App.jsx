@@ -9,6 +9,7 @@ import ProductsPage from './pages/Products'
 import AdminPage from './pages/AdminPage'
 
 import CartPage from './pages/CartPage'
+import OrdersPage from './pages/OrdersPage'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -42,13 +43,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-
           <Route path='/products' element={<ProductsPage/>}/>
           <Route path="/admin" element={<AdminPage />} />
-          
-
           <Route path="/cart" element={<CartPage />} />
-
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
       </main>
     </div>
