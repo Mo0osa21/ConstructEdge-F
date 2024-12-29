@@ -8,7 +8,7 @@ const Nav = ({ user, handleLogOut }) => {
 
         <h3>Welcome {user.email} to Construct Edge!</h3>
         <Link to="/products">products</Link>
-        <h3>Welcome {user.email}!</h3>
+        <Link to="/admin">add new product</Link>
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
@@ -21,6 +21,7 @@ const Nav = ({ user, handleLogOut }) => {
       <Link to="/">Home</Link>
       <Link to="/register">Register</Link>
       <Link to="/signin">Sign In</Link>
+      
     </nav>
   )
 

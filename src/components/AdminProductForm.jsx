@@ -95,6 +95,18 @@ const AdminProductForm = () => {
           required
         />
       </div>
+
+      <div>
+        <label>discount:</label>
+        <input
+          type="number"
+          name="discount"
+          value={productData.discount}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
       <button type="submit">Add Product</button>
 
       </form>
