@@ -3,8 +3,9 @@ import { Route, Routes } from 'react-router'
 import Nav from './components/Nav'
 import Register from './pages/Register'
 import SignIn from './pages/SignIn'
-import Feed from './pages/Feed'
 import Home from './pages/Home'
+import ProductsPage from './pages/Products'
+import AdminPage from './pages/AdminPage'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -39,7 +40,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/feed" element={<Feed user={user} />} />
+          <Route path='/products' element={<ProductsPage/>}/>
+          <Route path="/admin" element={<AdminPage />} />
+          
         </Routes>
       </main>
     </div>
