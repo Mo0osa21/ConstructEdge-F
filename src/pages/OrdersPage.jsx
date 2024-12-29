@@ -53,7 +53,6 @@ const OrdersPage = () => {
             <th>Products</th>
             <th>Total Price</th>
             <th>Status</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +68,7 @@ const OrdersPage = () => {
                 ))}
               </td>
               <td>${order.totalPrice}</td>
-              <td>{order.status}</td>
+
               {
                 <td>
                   <select
@@ -78,10 +77,11 @@ const OrdersPage = () => {
                       handleStatusChange(order._id, e.target.value)
                     }
                   >
-                    <option value="pending">Pending</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
                   </select>
                 </td>
               }
