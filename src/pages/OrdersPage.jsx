@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { getOrders, updateOrderStatus } from '../services/OrderServices'
+import { getAllOrders, updateOrderStatus } from '../services/OrderServices'
 
-const OrdersPage = ({ isAdmin }) => {
+const OrdersPage = () => {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -9,7 +9,7 @@ const OrdersPage = ({ isAdmin }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const ordersData = await getOrders()
+        const ordersData = await getAllOrders()
         setOrders(ordersData)
       } catch (error) {
         console.error('Error fetching orders:', error.message)
@@ -25,15 +25,17 @@ const OrdersPage = ({ isAdmin }) => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const updatedOrder = await updateOrderStatus(orderId, newStatus)
+      console.log('Updated Order:', updatedOrder)
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? { ...order, status: newStatus } : order
         )
       )
-      alert('Order status updated successfully')
     } catch (error) {
-      console.error('Error updating order status:', error.message)
-      alert('Failed to update order status. Please try again.')
+      console.error(
+        'Error updating order status:',
+        error.response?.data || error.message
+      )
     }
   }
 
@@ -51,7 +53,7 @@ const OrdersPage = ({ isAdmin }) => {
             <th>Products</th>
             <th>Total Price</th>
             <th>Status</th>
-            {isAdmin && <th>Actions</th>}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +70,7 @@ const OrdersPage = ({ isAdmin }) => {
               </td>
               <td>${order.totalPrice}</td>
               <td>{order.status}</td>
-              {isAdmin && (
+              {
                 <td>
                   <select
                     value={order.status}
@@ -82,7 +84,7 @@ const OrdersPage = ({ isAdmin }) => {
                     <option value="cancelled">Cancelled</option>
                   </select>
                 </td>
-              )}
+              }
             </tr>
           ))}
         </tbody>
