@@ -75,9 +75,31 @@ const AdminProductForm = () => {
           required
         />
       </div>
+      <div>
+        <label>Category:</label>
+        <input
+          type="text"
+          name="category"
+          value={productData.category}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Stock Quantity:</label>
+        <input
+          type="number"
+          name="stockQuantity"
+          value={productData.stockQuantity}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <button type="submit">Add Product</button>
 
       </form>
   )
 
 
 }
+export default AdminProductForm
