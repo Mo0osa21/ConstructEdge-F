@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
+import { useNavigate } from 'react-router-dom'
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,6 +22,7 @@ const ProductsPage = () => {
   }, [])
 
   return (
+    
     <div className="products-grid">
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
