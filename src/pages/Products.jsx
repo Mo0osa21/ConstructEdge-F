@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices' 
+import { addToCart } from '../services/CartServices'
 import { getCategories } from '../services/CategoryServices'
 
 import { useNavigate } from 'react-router-dom'
@@ -19,6 +19,8 @@ const ProductsPage = () => {
 
   // State for managing quantities
   const [quantities, setQuantities] = useState({})
+
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -86,10 +88,6 @@ const ProductsPage = () => {
   }
 
   return (
-
-   
-
-   
     <div className="products-grid">
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
@@ -154,4 +152,3 @@ const ProductsPage = () => {
 }
 
 export default ProductsPage
-
