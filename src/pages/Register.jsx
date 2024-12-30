@@ -18,78 +18,105 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await RegisterUser({
-      name: formValues.name,
-      email: formValues.email,
-      password: formValues.password
-    })
-    setFormValues({
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    })
-    navigate('/signin')
+    try {
+      if (formValues.password !== formValues.confirmPassword) {
+        alert('Passwords do not match!')
+        return
+      }
+      await RegisterUser({
+        name: formValues.name,
+        email: formValues.email,
+        password: formValues.password
+      })
+      setFormValues({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      })
+      navigate('/signin')
+    } catch (error) {
+      console.error('Registration failed:', error)
+    }
   }
 
   return (
-    <div className="signin col">
-      <div className="card-overlay centered">
-        <form className="col" onSubmit={handleSubmit}>
-          <div className="input-wrapper">
-            <label htmlFor="name">Username</label>
-            <input
-              onChange={handleChange}
-              name="name"
-              type="text"
-              placeholder="Your username"
-              value={formValues.name}
-              required
-            />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={handleChange}
-              name="email"
-              type="email"
-              placeholder="example@example.com"
-              value={formValues.email}
-              required
-            />
-          </div>
-
-          <div className="input-wrapper">
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={handleChange}
-              type="password"
-              name="password"
-              value={formValues.password}
-              required
-            />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              onChange={handleChange}
-              type="password"
-              name="confirmPassword"
-              value={formValues.confirmPassword}
-              required
-            />
-          </div>
-          <button
-            disabled={
-              !formValues.email ||
-              (!formValues.password &&
-                formValues.confirmPassword === formValues.password)
-            }
-          >
-            Sign In
-          </button>
-        </form>
-      </div>
+    <div className="register-form">
+      <h1 className="form-title">Register</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label" htmlFor="name">
+            Username
+          </label>
+          <input
+            className="form-input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter your username"
+            value={formValues.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="form-input"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email"
+            value={formValues.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="password">
+            Password
+          </label>
+          <input
+            className="form-input"
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            value={formValues.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="confirmPassword">
+            Confirm Password
+          </label>
+          <input
+            className="form-input"
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            placeholder="Re-enter your password"
+            value={formValues.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button
+          className="form-submit-button"
+          type="submit"
+          disabled={
+            !formValues.name ||
+            !formValues.email ||
+            !formValues.password ||
+            formValues.password !== formValues.confirmPassword
+          }
+        >
+          Register
+        </button>
+      </form>
     </div>
   )
 }

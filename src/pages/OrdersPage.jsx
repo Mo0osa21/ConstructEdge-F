@@ -44,7 +44,7 @@ const OrdersPage = () => {
 
   return (
     <div className="orders-page">
-      <h1>Orders</h1>
+      <h1>All Orders</h1>
       <table>
         <thead>
           <tr>
@@ -68,23 +68,20 @@ const OrdersPage = () => {
                 ))}
               </td>
               <td>${order.totalPrice}</td>
-
-              {
-                <td>
-                  <select
-                    value={order.status}
-                    onChange={(e) =>
-                      handleStatusChange(order._id, e.target.value)
-                    }
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-                </td>
-              }
+              <td>
+                <select
+                  value={order.status}
+                  onChange={(e) =>
+                    handleStatusChange(order._id, e.target.value)
+                  }
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </td>
             </tr>
           ))}
         </tbody>
