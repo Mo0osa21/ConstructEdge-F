@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices' // Service for handling cart operations
+import { useNavigate } from 'react-router-dom'
 
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
   
 
   // State for managing quantities
@@ -94,6 +96,7 @@ const ProductsPage = () => {
                 onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
                 className="quantity-input"
               />
+              
             </div>
 
             <button
@@ -107,6 +110,7 @@ const ProductsPage = () => {
             >
               Add to Cart
             </button>
+            <button onClick={() => navigate(`/edit-product/${product._id}`)}>Edit</button>
           </div>
         ))
       ) : (

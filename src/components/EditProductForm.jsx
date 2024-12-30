@@ -36,12 +36,24 @@ const EditProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    
+    const updatedData = {
+      ...productData,
+      price: (productData.price),
+      stockQuantity: (productData.stockQuantity, 10)
+    }
+
     try {
-      await updateProduct(productId, productData)
+      console.log('Submitting data to update:', updatedData) 
+      await updateProduct(productId, updatedData) 
       alert('Product updated successfully!')
-      navigate('/products')
+      navigate('/products') 
     } catch (err) {
-      console.error('Error updating product:', err)
+      console.error(
+        'Error updating product:',
+        err.response?.data || err.message
+      )
       setError('Failed to update product. Please try again.')
     }
   }
@@ -59,7 +71,7 @@ const EditProductForm = () => {
           name="name"
           value={productData.name}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -68,7 +80,7 @@ const EditProductForm = () => {
           name="description"
           value={productData.description}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -78,7 +90,7 @@ const EditProductForm = () => {
           name="price"
           value={productData.price}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -88,7 +100,7 @@ const EditProductForm = () => {
           name="imageUrl"
           value={productData.imageUrl}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -98,7 +110,7 @@ const EditProductForm = () => {
           name="category"
           value={productData.category}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -108,7 +120,7 @@ const EditProductForm = () => {
           name="stockQuantity"
           value={productData.stockQuantity}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <button type="submit">Update Product</button>
