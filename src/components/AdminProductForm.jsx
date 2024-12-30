@@ -8,14 +8,14 @@ const AdminProductForm = () => {
     price: '',
     imageUrl: '',
     category: '',
-    stockQuantity: '',
+    stockQuantity: ''
   })
   const handleChange = (e) => {
     const { name, value } = e.target
-    setProductData({...productData,[name]: value,})
+    setProductData({ ...productData, [name]: value })
   }
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       await createProduct(productData)
       alert('Product added successfully!')
@@ -26,6 +26,7 @@ const AdminProductForm = () => {
         imageUrl: '',
         category: '',
         stockQuantity: '',
+        discount: ''
       })
     } catch (error) {
       console.error('Error adding product:', error)
@@ -108,10 +109,7 @@ const AdminProductForm = () => {
       </div>
 
       <button type="submit">Add Product</button>
-
-      </form>
+    </form>
   )
-
-
 }
 export default AdminProductForm
