@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import Offers from './Offers'
-import Products from "./Products"
+
 const Home = ({ user }) => {
   const navigate = useNavigate();
 
-  const lowStockProducts = Products.filter((product) => product.stockQuantity < 50);
+
   return (
     <div className="home-container">
       {user ? (
@@ -14,6 +14,7 @@ const Home = ({ user }) => {
           <div className="offers-container">
             <Offers user={user} />
           </div>
+          
         </section>
       ) : (
         <section className="welcome-signin">
