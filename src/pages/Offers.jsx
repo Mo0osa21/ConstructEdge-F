@@ -37,6 +37,20 @@ const Offers=()=>{
       alert('Failed to add product to cart')
     }
   }
+   // Function to update the quantity for a product
+   const handleQuantityChange = (productId, event) => {
+    const newQuantity = Math.max(
+      1,
+      Math.min(
+        event.target.value,
+        products.find((product) => product._id === productId).stockQuantity
+      )
+    )
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: newQuantity
+    }))
+  }
   return(
     <h1>Here is our offers</h1>
 
