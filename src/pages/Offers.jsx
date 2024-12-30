@@ -53,6 +53,21 @@ const Offers=()=>{
       [productId]: newQuantity
     }))
   }
+  const handleDelete = async () => {
+      const confirmDelete = window.confirm(
+        'Are you sure you want to delete this product?'
+      )
+      if (confirmDelete) {
+        try {
+          await deleteProduct(productId)
+          alert('Product deleted successfully!')
+          navigate('/products')
+        } catch (err) {
+          console.error('Error deleting product:', err)
+          setError('Failed to delete product. Please try again.')
+        }
+      }
+    }
   return(
     <div className="products-grid">
       {error && <p className="error-message">{error}</p>}
@@ -95,6 +110,13 @@ const Offers=()=>{
               Add to Cart
             </button>
             <button onClick={() => navigate(`/edit-product/${product._id}`)}>Edit</button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              style={{ backgroundColor: 'red', color: 'white' }}
+            >
+              Delete Product
+            </button>
           </div>
         ))
       ) : (

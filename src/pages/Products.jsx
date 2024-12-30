@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 import { deleteProduct } from '../services/ProductServices'
 
-const ProductsPage = () => {
+const ProductsPage = ({user}) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
 
@@ -115,7 +115,6 @@ const ProductsPage = () => {
                 className="quantity-input"
               />
             </div>
-
             <button
               onClick={() => {
                 const quantity = parseInt(
@@ -127,16 +126,21 @@ const ProductsPage = () => {
             >
               Add to Cart
             </button>
-            <button onClick={() => navigate(`/edit-product/${product._id}`)}>
-              Edit
-            </button>
-            <button
-              type="button"
-              onClick={handleDelete}
-              style={{ backgroundColor: 'red', color: 'white' }}
-            >
-              Delete Product
-            </button>
+         
+            {user?.isAdmin (
+              <>
+                <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(product._id)}
+                  style={{ backgroundColor: 'red', color: 'white' }}
+                >
+                  Delete Product
+                </button>
+              </>
+            )}
           </div>
         ))
       ) : (
