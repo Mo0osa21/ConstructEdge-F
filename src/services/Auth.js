@@ -18,6 +18,15 @@ export const RegisterUser = async (data) => {
     throw error
   }
 }
+export const updateUser = async (userId, data) => {
+  try {
+    const response = await Client.put(`/users/${userId}`, data) // Adjust the endpoint as needed
+    return response.data
+  } catch (error) {
+    console.error('Error updating user:', error.response?.data || error.message)
+    throw error
+  }
+}
 
 export const CheckSession = async () => {
   try {
