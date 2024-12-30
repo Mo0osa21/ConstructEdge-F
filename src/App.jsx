@@ -17,6 +17,8 @@ import UserOrders from './pages/UserOrders'
 import EditProductPage from './pages/EditProductPage'
 
 import ProductDetails from './pages/ProductDetails'
+import Profile from './pages/Profile'
+
 const App = () => {
   const [user, setUser] = useState(null)
 
@@ -59,6 +61,11 @@ const App = () => {
           />
 
           <Route path="/product/:productId" element={<ProductDetails />} />
+
+          <Route
+            path="/profile"
+            element={<Profile user={user} setUser={setUser} />}
+          />
         </Routes>
       </main>
     </div>
