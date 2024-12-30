@@ -6,7 +6,7 @@ const Offers=()=>{
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   // State for managing quantities
-  
+  const navigate = useNavigate()
   const [quantities, setQuantities] = useState({})
   useEffect(() => {
     const fetchProducts = async () => {
