@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getProduct, updateProduct } from '../services/ProductServices'
+import { deleteProduct } from '../services/ProductServices'
 
 const EditProductForm = () => {
   const { productId } = useParams()
@@ -37,24 +38,39 @@ const EditProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    
     const updatedData = {
       ...productData,
-      price: (productData.price),
+      price: productData.price,
       stockQuantity: (productData.stockQuantity, 10)
     }
 
     try {
-      console.log('Submitting data to update:', updatedData) 
-      await updateProduct(productId, updatedData) 
+      console.log('Submitting data to update:', updatedData)
+      await updateProduct(productId, updatedData)
       alert('Product updated successfully!')
-      navigate('/products') 
+      navigate('/products')
     } catch (err) {
       console.error(
         'Error updating product:',
         err.response?.data || err.message
       )
       setError('Failed to update product. Please try again.')
+    }
+  }
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this product?'
+    )
+    if (confirmDelete) {
+      try {
+        await deleteProduct(productId)
+        alert('Product deleted successfully!')
+        navigate('/products')
+      } catch (err) {
+        console.error('Error deleting product:', err)
+        setError('Failed to delete product. Please try again.')
+      }
     }
   }
 
@@ -71,7 +87,6 @@ const EditProductForm = () => {
           name="name"
           value={productData.name}
           onChange={handleChange}
-          
         />
       </div>
       <div>
@@ -80,7 +95,6 @@ const EditProductForm = () => {
           name="description"
           value={productData.description}
           onChange={handleChange}
-          
         />
       </div>
       <div>
@@ -90,7 +104,6 @@ const EditProductForm = () => {
           name="price"
           value={productData.price}
           onChange={handleChange}
-          
         />
       </div>
       <div>
@@ -100,7 +113,6 @@ const EditProductForm = () => {
           name="imageUrl"
           value={productData.imageUrl}
           onChange={handleChange}
-          
         />
       </div>
       <div>
@@ -110,7 +122,6 @@ const EditProductForm = () => {
           name="category"
           value={productData.category}
           onChange={handleChange}
-          
         />
       </div>
       <div>
@@ -120,10 +131,16 @@ const EditProductForm = () => {
           name="stockQuantity"
           value={productData.stockQuantity}
           onChange={handleChange}
-          
         />
       </div>
       <button type="submit">Update Product</button>
+      <button
+        type="button"
+        onClick={handleDelete}
+        style={{ backgroundColor: 'red', color: 'white' }}
+      >
+        Delete Product
+      </button>
     </form>
   )
 }
