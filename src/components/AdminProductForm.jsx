@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createProduct } from '../services/ProductServices'
+import { getCategories } from '../services/CategoryServices'
 
 const AdminProductForm = () => {
   const [productData, setProductData] = useState({
@@ -8,12 +9,32 @@ const AdminProductForm = () => {
     price: '',
     imageUrl: '',
     category: '',
-    stockQuantity: ''
+    stockQuantity: '',
+    discount: ''
   })
+
+  const [categories, setCategories] = useState([]) // To store categories
+
+  // Fetch categories when the component loads
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesFromDB = await getCategories()
+        setCategories(categoriesFromDB)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+        alert('Failed to load categories. Please try again.')
+      }
+    }
+
+    fetchCategories()
+  }, [])
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setProductData({ ...productData, [name]: value })
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -25,14 +46,12 @@ const AdminProductForm = () => {
         price: '',
         imageUrl: '',
         category: '',
-
         stockQuantity: '',
         discount: ''
-
       })
     } catch (error) {
       console.error('Error adding product:', error)
-      alert('fail add product. Please try again.')
+      alert('Failed to add product. Please try again.')
     }
   }
 
@@ -80,13 +99,21 @@ const AdminProductForm = () => {
       </div>
       <div>
         <label>Category:</label>
-        <input
-          type="text"
+        <select
           name="category"
           value={productData.category}
           onChange={handleChange}
           required
-        />
+        >
+          <option value="" disabled>
+            Select a category
+          </option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label>Stock Quantity:</label>
@@ -98,9 +125,8 @@ const AdminProductForm = () => {
           required
         />
       </div>
-
       <div>
-        <label>discount:</label>
+        <label>Discount:</label>
         <input
           type="number"
           name="discount"
@@ -109,9 +135,9 @@ const AdminProductForm = () => {
           required
         />
       </div>
-
       <button type="submit">Add Product</button>
     </form>
   )
 }
+
 export default AdminProductForm
