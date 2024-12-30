@@ -10,7 +10,7 @@ const Offers=()=>{
     const fetchProducts = async () => {
       try {
         const data = await getProducts()
-        setProducts(data)
+        setProducts(data.filter((product) => product.discount > 0))
       } catch (err) {
         console.error('Error fetching products:', err)
         setError('Failed to fetch products.')
@@ -80,8 +80,26 @@ const Offers=()=>{
                 onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
                 className="quantity-input"
               />
-
-    
+ </div>
+            <button
+              onClick={() => {
+                const quantity = parseInt(
+                  document.getElementById(`quantity-${product._id}`).value,
+                  10
+                )
+                handleAddToCart(product._id, quantity, product.price) // Pass the product's price
+              }}
+            >
+              Add to Cart
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>No products available</p>
+      )}
+    </div>
   )
 }
+    
+
 export default Offers
