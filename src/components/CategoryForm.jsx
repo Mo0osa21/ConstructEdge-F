@@ -41,7 +41,18 @@ const CategoryForm = () => {
             required
           />
         </div>
+        <div>
+          <label>Description:</label>
+          <textarea
+            name="description"
+            value={categoryData.description}
+            onChange={handleChange}
+            required
+          ></textarea>
+        </div>
         
+        
+        <button type="submit">Add Category</button>
       </form>
     </div>
   )
