@@ -52,7 +52,16 @@ const Offers=()=>{
     }))
   }
   return(
-    <h1>Here is our offers</h1>
+    <div className="products-grid">
+      {error && <p className="error-message">{error}</p>}
+      {products.length > 0 ? (
+        products.map((product) => (
+          <div key={product._id} className="product-card">
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="product-image"
+            />
 
     
   )
