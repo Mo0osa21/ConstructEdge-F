@@ -25,7 +25,10 @@ const AdminProductForm = () => {
         price: '',
         imageUrl: '',
         category: '',
-        stockQuantity: ''
+
+        stockQuantity: '',
+        discount: ''
+
       })
     } catch (error) {
       console.error('Error adding product:', error)

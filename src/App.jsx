@@ -15,6 +15,8 @@ import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
 import UserOrders from './pages/UserOrders'
 import EditProductPage from './pages/EditProductPage'
+
+import ProductDetails from './pages/ProductDetails'
 const App = () => {
   const [user, setUser] = useState(null)
 
@@ -50,7 +52,11 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/userorders" element={<UserOrders />} />
+
           <Route path="/edit-product/:productId" element={<EditProductPage />}/>
+
+          <Route path="/product/:productId" element={<ProductDetails />} />
+
         </Routes>
       </main>
     </div>
