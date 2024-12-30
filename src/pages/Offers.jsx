@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getProducts } from '../services/ProductServices'
+import { getProducts, deleteProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { Link } from 'react-router-dom'
 
@@ -50,6 +50,23 @@ const Offers = () => {
       ...prevQuantities,
       [productId]: newQuantity
     }))
+  }
+  const handleDelete = async (productId) => {
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this product?'
+    )
+    if (confirmDelete) {
+      try {
+        await deleteProduct(productId)
+        alert('Product deleted successfully!')
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        )
+      } catch (err) {
+        console.error('Error details:', err.response?.data || err.message)
+        setError('Failed to delete product. Please try again.')
+      }
+    }
   }
 
   return (
@@ -108,8 +125,9 @@ const Offers = () => {
               </button>
 
               <button
+                type="button"
                 onClick={() => handleDelete(product._id)}
-                className="action-button delete-button"
+                aria-label={`Delete ${product.name}`}
               >
                 Delete Product
               </button>
