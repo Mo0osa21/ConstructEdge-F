@@ -4,6 +4,7 @@ import Nav from './components/Nav'
 import Register from './pages/Register'
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
+import CategoryForm from './components/CategoryForm'
 
 import ProductsPage from './pages/Products'
 import AdminPage from './pages/AdminPage'
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/edit-product/:productId" element={<EditProductPage />}/>
 
           <Route path="/product/:productId" element={<ProductDetails />} />
+          <Route path="/categories" element={<CategoryForm />} />
 
         </Routes>
       </main>
