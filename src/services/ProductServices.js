@@ -40,8 +40,12 @@ export const createProduct = async (productData) => {
 }
 
 export const updateProduct = async (productId, updatedData) => {
+  console.log(productId)
+  console.log(updatedData)
+
   try {
     const response = await Client.put(`/products/${productId}`, updatedData)
+    console.log('Backend Update Response:', response.data)
     return response.data
   } catch (error) {
     console.error(

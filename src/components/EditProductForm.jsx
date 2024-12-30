@@ -1,7 +1,9 @@
-import { useState } from 'react'
-import { createProduct } from '../services/ProductServices'
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { getProduct, updateProduct } from '../services/ProductServices'
 
-const AdminProductForm = () => {
+const EditProductForm = () => {
+  const { productId } = useParams()
   const [productData, setProductData] = useState({
     name: '',
     description: '',
@@ -10,35 +12,58 @@ const AdminProductForm = () => {
     category: '',
     stockQuantity: ''
   })
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const product = await getProduct(productId)
+        setProductData(product)
+      } catch (err) {
+        console.error('Error fetching product details:', err)
+        setError('Failed to load product details.')
+      }
+    }
+
+    fetchProductDetails()
+  }, [productId])
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setProductData({ ...productData, [name]: value })
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      await createProduct(productData)
-      alert('Product added successfully!')
-      setProductData({
-        name: '',
-        description: '',
-        price: '',
-        imageUrl: '',
-        category: '',
 
-        stockQuantity: '',
-        discount: ''
-
-      })
-    } catch (error) {
-      console.error('Error adding product:', error)
-      alert('fail add product. Please try again.')
+    
+    const updatedData = {
+      ...productData,
+      price: (productData.price),
+      stockQuantity: (productData.stockQuantity, 10)
     }
+
+    try {
+      console.log('Submitting data to update:', updatedData) 
+      await updateProduct(productId, updatedData) 
+      alert('Product updated successfully!')
+      navigate('/products') 
+    } catch (err) {
+      console.error(
+        'Error updating product:',
+        err.response?.data || err.message
+      )
+      setError('Failed to update product. Please try again.')
+    }
+  }
+
+  if (error) {
+    return <p className="error-message">{error}</p>
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add New Product</h2>
       <div>
         <label>Name:</label>
         <input
@@ -46,7 +71,7 @@ const AdminProductForm = () => {
           name="name"
           value={productData.name}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -55,7 +80,7 @@ const AdminProductForm = () => {
           name="description"
           value={productData.description}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -65,7 +90,7 @@ const AdminProductForm = () => {
           name="price"
           value={productData.price}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -75,7 +100,7 @@ const AdminProductForm = () => {
           name="imageUrl"
           value={productData.imageUrl}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -85,7 +110,7 @@ const AdminProductForm = () => {
           name="category"
           value={productData.category}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div>
@@ -95,23 +120,12 @@ const AdminProductForm = () => {
           name="stockQuantity"
           value={productData.stockQuantity}
           onChange={handleChange}
-          required
+          
         />
       </div>
-
-      <div>
-        <label>discount:</label>
-        <input
-          type="number"
-          name="discount"
-          value={productData.discount}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <button type="submit">Add Product</button>
+      <button type="submit">Update Product</button>
     </form>
   )
 }
-export default AdminProductForm
+
+export default EditProductForm
