@@ -19,6 +19,7 @@ const ProductsPage = () => {
         setError('Failed to fetch products.')
       }
     }
+
     fetchProducts()
   }, [])
 
@@ -59,13 +60,7 @@ const ProductsPage = () => {
   }
 
   const handleQuantityChange = (productId, event) => {
-    const newQuantity = Math.max(
-      1,
-      Math.min(
-        event.target.value,
-        products.find((product) => product._id === productId).stockQuantity
-      )
-    )
+    const newQuantity = Math.max(1, event.target.value)
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
       [productId]: newQuantity
@@ -86,10 +81,7 @@ const ProductsPage = () => {
               />
             </Link>
             <h2>{product.name}</h2>
-            <p>{product.description}</p>
             <p>Price: ${product.price}</p>
-            <p>Stock Quantity: {product.stockQuantity}</p>
-            <p>Category: {product.category?.name || 'No Category'}</p>
             <div className="quantity-container">
               <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
               <input
