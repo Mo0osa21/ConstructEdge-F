@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getProduct, updateProduct } from '../services/ProductServices'
 import { deleteProduct } from '../services/ProductServices'
+import { getCategories } from '../services/CategoryServices'
 
 const EditProductForm = () => {
   const { productId } = useParams()
@@ -11,9 +12,11 @@ const EditProductForm = () => {
     price: '',
     imageUrl: '',
     category: '',
-    stockQuantity: ''
+    stockQuantity: '',
+    discount: ''
   })
   const [error, setError] = useState(null)
+  const [categories, setCategories] = useState([]) // To store categories
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -26,8 +29,18 @@ const EditProductForm = () => {
         setError('Failed to load product details.')
       }
     }
+    const fetchCategories = async () => {
+      try {
+        const categoriesFromDB = await getCategories()
+        setCategories(categoriesFromDB)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+        alert('Failed to load categories. Please try again.')
+      }
+    }
 
     fetchProductDetails()
+    fetchCategories()
   }, [productId])
 
   const handleChange = (e) => {
@@ -117,12 +130,21 @@ const EditProductForm = () => {
       </div>
       <div>
         <label>Category:</label>
-        <input
-          type="text"
+        <select
           name="category"
           value={productData.category}
           onChange={handleChange}
-        />
+          required
+        >
+          <option value="" disabled>
+            Select a category
+          </option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label>Stock Quantity:</label>
@@ -131,6 +153,16 @@ const EditProductForm = () => {
           name="stockQuantity"
           value={productData.stockQuantity}
           onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label>Discount:</label>
+        <input
+          type="number"
+          name="discount"
+          value={productData.discount}
+          onChange={handleChange}
+          required
         />
       </div>
       <button type="submit">Update Product</button>

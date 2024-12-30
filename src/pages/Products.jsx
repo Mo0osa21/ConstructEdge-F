@@ -4,16 +4,15 @@ import { addToCart } from '../services/CartServices' // Service for handling car
 
 import { useNavigate } from 'react-router-dom'
 
-
 import { Link } from 'react-router-dom'
 
+import { deleteProduct } from '../services/ProductServices'
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
-  
 
   // State for managing quantities
   const [quantities, setQuantities] = useState({})
@@ -67,6 +66,21 @@ const ProductsPage = () => {
       [productId]: newQuantity
     }))
   }
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this product?'
+    )
+    if (confirmDelete) {
+      try {
+        await deleteProduct(productId)
+        alert('Product deleted successfully!')
+        navigate('/products')
+      } catch (err) {
+        console.error('Error deleting product:', err)
+        setError('Failed to delete product. Please try again.')
+      }
+    }
+  }
 
   return (
     <div className="products-grid">
@@ -100,7 +114,6 @@ const ProductsPage = () => {
                 onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
                 className="quantity-input"
               />
-              
             </div>
 
             <button
@@ -114,7 +127,16 @@ const ProductsPage = () => {
             >
               Add to Cart
             </button>
-            <button onClick={() => navigate(`/edit-product/${product._id}`)}>Edit</button>
+            <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              style={{ backgroundColor: 'red', color: 'white' }}
+            >
+              Delete Product
+            </button>
           </div>
         ))
       ) : (
