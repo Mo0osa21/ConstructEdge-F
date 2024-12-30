@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices' //
+import { addToCart } from '../services/CartServices' 
+import { useNavigate } from 'react-router-dom'//
 const Offers=()=>{
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   // State for managing quantities
+  
   const [quantities, setQuantities] = useState({})
   useEffect(() => {
     const fetchProducts = async () => {
@@ -92,6 +94,7 @@ const Offers=()=>{
             >
               Add to Cart
             </button>
+            <button onClick={() => navigate(`/edit-product/${product._id}`)}>Edit</button>
           </div>
         ))
       ) : (
