@@ -101,12 +101,9 @@ const ProductsPage = () => {
               />
             </Link>
             <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>Price: ${product.price}</p>
-            <p>Stock Quantity: {product.stockQuantity}</p>
-            <p>Category: {product.category?.name || 'No Category'}</p>
 
-            {/* Quantity Input */}
+            <p>Price: ${product.price}</p>
+
             <div className="quantity-container">
               <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
               <input
@@ -123,22 +120,37 @@ const ProductsPage = () => {
 
             <button
               onClick={() => {
-                const quantity = parseInt(
-                  document.getElementById(`quantity-${product._id}`).value,
-                  10
+                const quantityInput = document.getElementById(
+                  `quantity-${product._id}`
                 )
+                const quantity = parseInt(quantityInput.value, 10)
+
+                if (!quantity || quantity <= 0) {
+                  alert('Please enter a valid quantity.')
+                  return
+                }
+
                 handleAddToCart(product._id, quantity, product.price) // Pass the product's price
               }}
+              className="action-button add-to-cart"
+              aria-label={`Add ${product.name} to cart`}
             >
               Add to Cart
             </button>
-            <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+
+            <button
+              onClick={() => navigate(`/edit-product/${product._id}`)}
+              className="action-button edit-button"
+              aria-label={`Edit details for ${product.name}`}
+            >
               Edit
             </button>
+
             <button
               type="button"
               onClick={handleDelete}
-              style={{ backgroundColor: 'red', color: 'white' }}
+              className="action-button delete-button"
+              aria-label={`Delete ${product.name}`}
             >
               Delete Product
             </button>
