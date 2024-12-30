@@ -23,4 +23,25 @@ const Profile = ({ user, setUser }) => {
       setMessage('Failed to update profile. Please try again.')
     }
   }
+
+  return (
+    <div className="profile-page">
+      <h1>Update Profile</h1>
+      {message && <p>{message}</p>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            name="username"
+            value={formvalues.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+  )
 }
+export default Profile

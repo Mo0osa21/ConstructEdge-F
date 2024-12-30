@@ -53,10 +53,12 @@ const App = () => {
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/userorders" element={<UserOrders />} />
 
-          <Route path="/edit-product/:productId" element={<EditProductPage />}/>
+          <Route
+            path="/edit-product/:productId"
+            element={<EditProductPage />}
+          />
 
           <Route path="/product/:productId" element={<ProductDetails />} />
-
         </Routes>
       </main>
     </div>

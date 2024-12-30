@@ -5,10 +5,10 @@ const Nav = ({ user, handleLogOut }) => {
   if (user) {
     userOptions = (
       <nav>
-
         <h3>Welcome {user.email} to Construct Edge!</h3>
         <Link to="/products">products</Link>
         <Link to="/admin">add new product</Link>
+
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
@@ -21,16 +21,13 @@ const Nav = ({ user, handleLogOut }) => {
       <Link to="/">Home</Link>
       <Link to="/register">Register</Link>
       <Link to="/signin">Sign In</Link>
-      
     </nav>
   )
 
   return (
     <header>
       <Link to="/">
-        <div className="logo-wrapper" alt="logo">
-          
-        </div>
+        <div className="logo-wrapper" alt="logo"></div>
       </Link>
       {user ? userOptions : publicOptions}
     </header>
