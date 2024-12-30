@@ -1,20 +1,12 @@
 import { useEffect, useState } from 'react'
-import { getProducts } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices' // Service for handling cart operations
-
-import { useNavigate } from 'react-router-dom'
-
-import { Link } from 'react-router-dom'
-
-import { deleteProduct } from '../services/ProductServices'
+import { getProducts, deleteProduct } from '../services/ProductServices'
+import { addToCart } from '../services/CartServices'
+import { useNavigate, Link } from 'react-router-dom'
 
 const ProductsPage = ({user}) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
-
   const navigate = useNavigate()
-
-  // State for managing quantities
   const [quantities, setQuantities] = useState({})
 
   useEffect(() => {
@@ -31,20 +23,17 @@ const ProductsPage = ({user}) => {
     fetchProducts()
   }, [])
 
-  const handleAddToCart = async (productId, quantity, price) => {
+  const handleAddToCart = async (productId, quantity, price, discount = 0) => {
     try {
-      // Create the products array with the required structure
       const products = [
         {
           product: productId,
           quantity: quantity,
-          price: price
+          price: price,
+          discount: discount
         }
       ]
-
-      // Call the addToCart API with the products array
       await addToCart(products)
-
       alert('Product added to cart')
     } catch (err) {
       console.error('Error adding product to cart:', err)
@@ -52,21 +41,7 @@ const ProductsPage = ({user}) => {
     }
   }
 
-  // Function to update the quantity for a product
-  const handleQuantityChange = (productId, event) => {
-    const newQuantity = Math.max(
-      1,
-      Math.min(
-        event.target.value,
-        products.find((product) => product._id === productId).stockQuantity
-      )
-    )
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: newQuantity
-    }))
-  }
-  const handleDelete = async () => {
+  const handleDelete = async (productId) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this product?'
     )
@@ -74,12 +49,22 @@ const ProductsPage = ({user}) => {
       try {
         await deleteProduct(productId)
         alert('Product deleted successfully!')
-        navigate('/products')
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        )
       } catch (err) {
-        console.error('Error deleting product:', err)
+        console.error('Error details:', err.response?.data || err.message)
         setError('Failed to delete product. Please try again.')
       }
     }
+  }
+
+  const handleQuantityChange = (productId, event) => {
+    const newQuantity = Math.max(1, event.target.value)
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: newQuantity
+    }))
   }
 
   return (
@@ -96,12 +81,10 @@ const ProductsPage = ({user}) => {
               />
             </Link>
             <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>Price: ${product.price}</p>
-            <p>Stock Quantity: {product.stockQuantity}</p>
-            <p>Category: {product.category?.name || 'No Category'}</p>
 
-            {/* Quantity Input */}
+            <p>Price: ${product.price}</p>
+
+
             <div className="quantity-container">
               <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
               <input
@@ -110,19 +93,36 @@ const ProductsPage = ({user}) => {
                 name="quantity"
                 min="1"
                 max={product.stockQuantity}
-                value={quantities[product._id] || 1} // Controlled input
-                onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
+                value={quantities[product._id] || 1}
+                onChange={(e) => handleQuantityChange(product._id, e)}
                 className="quantity-input"
               />
             </div>
             <button
               onClick={() => {
-                const quantity = parseInt(
-                  document.getElementById(`quantity-${product._id}`).value,
-                  10
+                const quantityInput = document.getElementById(
+                  `quantity-${product._id}`
                 )
-                handleAddToCart(product._id, quantity, product.price) // Pass the product's price
+
+                handleAddToCart(
+                  product._id,
+                  quantity,
+                  product.price,
+                  product.discount || 0
+                )
+
+                const quantity = parseInt(quantityInput.value, 10)
+
+                if (!quantity || quantity <= 0) {
+                  alert('Please enter a valid quantity.')
+                  return
+                }
+
+              
+
               }}
+              className="action-button add-to-cart"
+              aria-label={`Add ${product.name} to cart`}
             >
               Add to Cart
             </button>
@@ -141,6 +141,7 @@ const ProductsPage = ({user}) => {
                 </button>
               </>
             )}
+
           </div>
         ))
       ) : (
@@ -151,4 +152,3 @@ const ProductsPage = ({user}) => {
 }
 
 export default ProductsPage
-
