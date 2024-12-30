@@ -3,7 +3,7 @@ import { getProducts, deleteProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { useNavigate, Link } from 'react-router-dom'
 
-const ProductsPage = () => {
+const ProductsPage = ({user}) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -126,26 +126,22 @@ const ProductsPage = () => {
             >
               Add to Cart
             </button>
+         
+            {user?.isAdmin && (
+              <>
+                <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(product._id)}
+                  style={{ backgroundColor: 'red', color: 'white' }}
+                >
+                  Delete Product
+                </button>
+              </>
+            )}
 
-            <button
-              onClick={() => navigate(`/edit-product/${product._id}`)}
-              className="action-button edit-button"
-              aria-label={`Edit details for ${product.name}`}
-            >
-              Edit
-            </button>
-
-            <button
-              type="button"
-
-              onClick={() => handleDelete(product._id)}
-          
-
-              aria-label={`Delete ${product.name}`}
-
-            >
-              Delete Product
-            </button>
           </div>
         ))
       ) : (

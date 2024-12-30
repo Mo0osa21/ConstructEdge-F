@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 const Nav = ({ user, handleLogOut }) => {
   let userOptions
-  if (user) {
+  if (user?.isAdmin) {
     userOptions = (
       <nav className="nav">
         <h3>Welcome {user.email} to Construct Edge!</h3>
@@ -20,6 +20,25 @@ const Nav = ({ user, handleLogOut }) => {
         <Link onClick={handleLogOut} to="/" className="nav-link">
           Sign Out
         </Link>
+      </nav>
+    )
+  }else if(user){
+    userOptions = (
+      <nav >
+        <h3>Welcome {user.email} to Construct Edge!</h3>
+
+        
+        <Link to="/">
+        Home 
+        </Link>
+   
+        <Link to="Offers">Offers</Link>
+
+        <Link to="/products">products</Link>
+        <Link onClick={handleLogOut} to="/">
+          Sign Out
+        </Link>
+       
       </nav>
     )
   }

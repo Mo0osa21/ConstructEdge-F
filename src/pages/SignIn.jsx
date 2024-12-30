@@ -16,7 +16,7 @@ const SignIn = ({ setUser }) => {
       const payload = await SignInUser(formValues)
       setFormValues({ email: '', password: '' })
       setUser(payload)
-      navigate('/products')
+      navigate('/')
     } catch (error) {
       console.error('Sign-in failed:', error)
     }

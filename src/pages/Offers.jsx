@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
 import { getProducts, deleteProduct } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices'
+import { addToCart } from '../services/CartServices' 
+import { useNavigate } from 'react-router-dom'//
 import { Link } from 'react-router-dom'
-
-const Offers = () => {
+const Offers=(user)=>{
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
+  // State for managing quantities
+  const navigate = useNavigate()
+  const [products, setProducts] = useState([])
+  const [error, setError] = useState(null)
+
   const [quantities, setQuantities] = useState({})
 
   useEffect(() => {
@@ -134,6 +139,7 @@ const Offers = () => {
             </div>
           ))}
         </div>
+
       ) : (
         <p className="empty-state-message">No products available</p>
       )}
