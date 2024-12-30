@@ -109,14 +109,20 @@ const Offers=()=>{
             >
               Add to Cart
             </button>
-            <button onClick={() => navigate(`/edit-product/${product._id}`)}>Edit</button>
-            <button
-              type="button"
-              onClick={handleDelete}
-              style={{ backgroundColor: 'red', color: 'white' }}
-            >
-              Delete Product
-            </button>
+            {user?.isAdmin (
+              <>
+                <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(product._id)}
+                  style={{ backgroundColor: 'red', color: 'white' }}
+                >
+                  Delete Product
+                </button>
+              </>
+            )}
           </div>
         ))
       ) : (
