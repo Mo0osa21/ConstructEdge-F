@@ -110,7 +110,8 @@ const Offers=(user)=>{
             >
               Add to Cart
             </button>
-            
+            {user?.isAdmin && (
+              <>
                 <button onClick={() => navigate(`/edit-product/${product._id}`)}>
                   Edit
                 </button>
@@ -121,6 +122,8 @@ const Offers=(user)=>{
                 >
                   Delete Product
                 </button>
+              </>
+            )}
             
           
           </div>

@@ -127,7 +127,7 @@ const ProductsPage = ({user}) => {
               Add to Cart
             </button>
          
-            {user?.isAdmin (
+            {user?.isAdmin && (
               <>
                 <button onClick={() => navigate(`/edit-product/${product._id}`)}>
                   Edit
