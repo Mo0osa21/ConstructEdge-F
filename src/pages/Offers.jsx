@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices' 
 import { useNavigate } from 'react-router-dom'//
-const Offers=()=>{
+const Offers=(user)=>{
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   // State for managing quantities
@@ -70,6 +70,7 @@ const Offers=()=>{
     }
   return(
     <div className="products-grid">
+   
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
         products.map((product) => (
@@ -109,8 +110,7 @@ const Offers=()=>{
             >
               Add to Cart
             </button>
-            {user?.isAdmin (
-              <>
+            
                 <button onClick={() => navigate(`/edit-product/${product._id}`)}>
                   Edit
                 </button>
@@ -121,8 +121,8 @@ const Offers=()=>{
                 >
                   Delete Product
                 </button>
-              </>
-            )}
+            
+          
           </div>
         ))
       ) : (

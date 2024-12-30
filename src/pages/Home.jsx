@@ -1,19 +1,20 @@
 import { useNavigate } from 'react-router-dom'
+import Offers from './Offers'
 
-
-const Home = ({user}) => {
-  let navigate = useNavigate()
+const Home = ({ user }) => {
+  const navigate = useNavigate();
 
   return (
-    <div className="home-container col">
-    {user ? ( // Check if user is logged in
+    <div className="home-container">
+      {user ? (
         <section className="welcome-user">
-          {/* Content for logged-in users */}
-          <h2>Welcome, {user.name}!</h2> {/* Display user's name */}
-          <p>Explore our products and services.</p>
-          {/* Add other content for logged-in users here */}
+          <h2>Welcome To Construction Edge</h2>
+          <p>Explore our products That they are on Offer</p>
+          <div className="offers-container"> {/* Container for Offers */}
+            <Offers user={user} />
+          </div>
         </section>
-      ) : ( // Content for non-logged-in users
+      ) : (
         <section className="welcome-signin">
           <button onClick={() => navigate('/signin')}>
             Click Here To Start
@@ -21,7 +22,7 @@ const Home = ({user}) => {
         </section>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default Home
