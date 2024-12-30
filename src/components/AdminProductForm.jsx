@@ -56,53 +56,58 @@ const AdminProductForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add New Product</h2>
-      <div>
-        <label>Name:</label>
+    <form className="product-form" onSubmit={handleSubmit}>
+      <h2 className="form-title">Add New Product</h2>
+      <div className="form-group">
+        <label className="form-label">Name:</label>
         <input
           type="text"
           name="name"
           value={productData.name}
           onChange={handleChange}
+          className="form-input"
           required
         />
       </div>
-      <div>
-        <label>Description:</label>
+      <div className="form-group">
+        <label className="form-label">Description:</label>
         <textarea
           name="description"
           value={productData.description}
           onChange={handleChange}
+          className="form-textarea"
           required
         />
       </div>
-      <div>
-        <label>Price:</label>
+      <div className="form-group">
+        <label className="form-label">Price:</label>
         <input
           type="number"
           name="price"
           value={productData.price}
           onChange={handleChange}
+          className="form-input"
           required
         />
       </div>
-      <div>
-        <label>Image URL:</label>
+      <div className="form-group">
+        <label className="form-label">Image URL:</label>
         <input
           type="text"
           name="imageUrl"
           value={productData.imageUrl}
           onChange={handleChange}
+          className="form-input"
           required
         />
       </div>
-      <div>
-        <label>Category:</label>
+      <div className="form-group">
+        <label className="form-label">Category:</label>
         <select
           name="category"
           value={productData.category}
           onChange={handleChange}
+          className="form-select"
           required
         >
           <option value="" disabled>
@@ -115,27 +120,31 @@ const AdminProductForm = () => {
           ))}
         </select>
       </div>
-      <div>
-        <label>Stock Quantity:</label>
+      <div className="form-group">
+        <label className="form-label">Stock Quantity:</label>
         <input
           type="number"
           name="stockQuantity"
           value={productData.stockQuantity}
           onChange={handleChange}
+          className="form-input"
           required
         />
       </div>
-      <div>
-        <label>Discount:</label>
+      <div className="form-group">
+        <label className="form-label">Discount:</label>
         <input
           type="number"
           name="discount"
           value={productData.discount}
           onChange={handleChange}
+          className="form-input"
           required
         />
       </div>
-      <button type="submit">Add Product</button>
+      <button type="submit" className="form-submit-button">
+        Add Product
+      </button>
     </form>
   )
 }

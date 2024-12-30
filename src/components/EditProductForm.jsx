@@ -54,7 +54,7 @@ const EditProductForm = () => {
     const updatedData = {
       ...productData,
       price: productData.price,
-      stockQuantity: (productData.stockQuantity, 10)
+      stockQuantity: productData.stockQuantity
     }
 
     try {
@@ -92,88 +92,92 @@ const EditProductForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={productData.name}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Description:</label>
-        <textarea
-          name="description"
-          value={productData.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Price:</label>
-        <input
-          type="number"
-          name="price"
-          value={productData.price}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          name="imageUrl"
-          value={productData.imageUrl}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Category:</label>
-        <select
-          name="category"
-          value={productData.category}
-          onChange={handleChange}
-          required
-        >
-          <option value="" disabled>
-            Select a category
-          </option>
-          {categories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.name}
+    <div className="form-container">
+      <form className="product-form" onSubmit={handleSubmit}>
+        <h2 className="form-title">Edit Product</h2>
+        <div className="form-group">
+          <label className="form-label">Name:</label>
+          <input
+            className="form-input"
+            type="text"
+            name="name"
+            value={productData.name}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Description:</label>
+          <textarea
+            className="form-textarea"
+            name="description"
+            value={productData.description}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Price:</label>
+          <input
+            className="form-input"
+            type="number"
+            name="price"
+            value={productData.price}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Image URL:</label>
+          <input
+            className="form-input"
+            type="text"
+            name="imageUrl"
+            value={productData.imageUrl}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Category:</label>
+          <select
+            className="form-select"
+            name="category"
+            value={productData.category}
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>
+              Select a category
             </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Stock Quantity:</label>
-        <input
-          type="number"
-          name="stockQuantity"
-          value={productData.stockQuantity}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Discount:</label>
-        <input
-          type="number"
-          name="discount"
-          value={productData.discount}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit">Update Product</button>
-      <button
-        type="button"
-        onClick={handleDelete}
-        style={{ backgroundColor: 'red', color: 'white' }}
-      >
-        Delete Product
-      </button>
-    </form>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label className="form-label">Stock Quantity:</label>
+          <input
+            className="form-input"
+            type="number"
+            name="stockQuantity"
+            value={productData.stockQuantity}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Discount:</label>
+          <input
+            className="form-input"
+            type="number"
+            name="discount"
+            value={productData.discount}
+            onChange={handleChange}
+          />
+        </div>
+        <button className="form-submit-button" type="submit">
+          Update Product
+        </button>
+      </form>
+    </div>
   )
 }
 
