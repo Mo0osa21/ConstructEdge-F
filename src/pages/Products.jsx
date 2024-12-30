@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices' // Service for handling cart operations
+import { addToCart } from '../services/CartServices' 
+import { getCategories } from '../services/CategoryServices'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +11,8 @@ import { deleteProduct } from '../services/ProductServices'
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('')
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
@@ -83,6 +86,10 @@ const ProductsPage = () => {
   }
 
   return (
+
+   
+
+   
     <div className="products-grid">
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
