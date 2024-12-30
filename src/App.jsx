@@ -10,6 +10,7 @@ import AdminPage from './pages/AdminPage'
 
 import CartPage from './pages/CartPage'
 import OrdersPage from './pages/OrdersPage'
+import Offers from './pages/Offers'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -18,6 +19,7 @@ import EditProductPage from './pages/EditProductPage'
 
 import ProductDetails from './pages/ProductDetails'
 const App = () => {
+  
   const [user, setUser] = useState(null)
 
   const handleLogOut = () => {
@@ -47,7 +49,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<ProductsPage />} />
+
+          <Route path='/products' element={<ProductsPage/>}/>
+          <Route path='/offers' element={<Offers/>}/>
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrdersPage />} />

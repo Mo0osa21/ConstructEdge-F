@@ -1,17 +1,28 @@
 import { Link } from 'react-router-dom'
 
-const Nav = ({ user, handleLogOut }) => {
+
+const Nav = ({ user, handleLogOut}) => {
+
   let userOptions
   if (user) {
     userOptions = (
-      <nav>
-
+      <nav >
         <h3>Welcome {user.email} to Construct Edge!</h3>
+
+        
+        <Link to="/">
+        Home 
+        </Link>
+   
+        <Link to="Offers">Offers</Link>
+
         <Link to="/products">products</Link>
         <Link to="/admin">add new product</Link>
+
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
+       
       </nav>
     )
   }
