@@ -62,6 +62,24 @@ const Offers=()=>{
               alt={product.name}
               className="product-image"
             />
+             <h2>{product.name}</h2>
+            <p>{product.description}</p>
+            <p>Price: ${product.price}</p>
+            <p>Stock Quantity: {product.stockQuantity}</p>
+            <p>Category: {product.category?.name || 'No Category'}</p>
+            {/* Quantity Input */}
+            <div className="quantity-container">
+              <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
+              <input
+                type="number"
+                id={`quantity-${product._id}`}
+                name="quantity"
+                min="1"
+                max={product.stockQuantity}
+                value={quantities[product._id] || 1} // Controlled input
+                onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
+                className="quantity-input"
+              />
 
     
   )
