@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices' // Service for handling cart operations
-
+import { Link } from 'react-router-dom'
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
-  
 
   // State for managing quantities
   const [quantities, setQuantities] = useState({})
@@ -62,19 +61,18 @@ const ProductsPage = () => {
   }
 
   return (
-    
-      
-    
     <div className="products-grid">
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
         products.map((product) => (
           <div key={product._id} className="product-card">
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="product-image"
-            />
+            <Link to={`/product/${product._id}`}>
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className="product-image"
+              />
+            </Link>
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>
