@@ -19,7 +19,7 @@ const SignIn = ({ setUser }) => {
       setFormValues({ email: '', password: '' })
       setUser(payload)
 
-      navigate('/')
+      navigate('/products')
       toast.success('You siggned in successfully')
     } catch (error) {
       console.error('Sign-in failed:', error)
