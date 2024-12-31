@@ -1,5 +1,8 @@
 import { useState } from 'react'
+<<<<<<< HEAD
 import { RegisterUser } from '../services/Auth' // Update this import to reflect your existing Auth.js functions
+=======
+>>>>>>> d08bb02d13e39a1474c1b12cc674fff7451786fd
 
 const Profile = ({ user, setUser }) => {
   const [formValues, setFormValues] = useState({

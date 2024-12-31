@@ -4,12 +4,14 @@ import Nav from './components/Nav'
 import Register from './pages/Register'
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
+import CategoryForm from './components/CategoryForm'
 
 import ProductsPage from './pages/Products'
 import AdminPage from './pages/AdminPage'
 
 import CartPage from './pages/CartPage'
 import OrdersPage from './pages/OrdersPage'
+import Offers from './pages/Offers'
 import './App.css'
 import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
@@ -20,6 +22,7 @@ import ProductDetails from './pages/ProductDetails'
 import Profile from './pages/Profile'
 
 const App = () => {
+  
   const [user, setUser] = useState(null)
 
   const handleLogOut = () => {
@@ -46,10 +49,12 @@ const App = () => {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={user} />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<ProductsPage />} />
+
+          <Route path='/products' element={<ProductsPage/>}/>
+          <Route path='/offers' element={<Offers/>}/>
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrdersPage />} />
@@ -61,6 +66,7 @@ const App = () => {
           />
 
           <Route path="/product/:productId" element={<ProductDetails />} />
+          <Route path="/categories" element={<CategoryForm />} />
 
           <Route
             path="/profile"

@@ -18,6 +18,7 @@ const CartPage = () => {
         setCart(cartData)
       } catch (error) {
         console.error('Error fetching cart:', error.message)
+        setError('Failed to load cart. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -34,6 +35,7 @@ const CartPage = () => {
       setCart(updatedCart)
     } catch (error) {
       console.error('Error updating cart item:', error.message)
+      setError('Failed to update item. Please try again.')
     }
   }
 
@@ -43,6 +45,7 @@ const CartPage = () => {
       setCart(updatedCart)
     } catch (error) {
       console.error('Error removing cart item:', error.message)
+      setError('Failed to remove item. Please try again.')
     }
   }
 
@@ -65,8 +68,8 @@ const CartPage = () => {
   return (
     <div className="cart-page">
       <h1>Your Cart</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}{' '}
-      <table>
+      {error && <p className="error-message">{error}</p>}
+      <table className="cart-table">
         <thead>
           <tr>
             <th>Product</th>
@@ -84,6 +87,7 @@ const CartPage = () => {
               <td>
                 <input
                   type="number"
+                  min="1"
                   value={item.quantity}
                   onChange={(e) =>
                     handleQuantityChange(
@@ -95,7 +99,10 @@ const CartPage = () => {
               </td>
               <td>${item.price}</td>
               <td>
-                <button onClick={() => handleRemoveItem(item.product._id)}>
+                <button
+                  className="remove-item-btn"
+                  onClick={() => handleRemoveItem(item.product._id)}
+                >
                   Remove
                 </button>
               </td>
@@ -103,8 +110,12 @@ const CartPage = () => {
           ))}
         </tbody>
       </table>
-      <h2>Total: ${cart.totalPrice}</h2>
-      <button onClick={handleCheckout}>Checkout</button>
+      <div className="cart-summary">
+        <h2>Total: ${cart.totalPrice}</h2>
+        <button className="checkout-btn" onClick={handleCheckout}>
+          Checkout
+        </button>
+      </div>
     </div>
   )
 }

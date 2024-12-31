@@ -3,7 +3,7 @@ import { getProducts, deleteProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { useNavigate, Link } from 'react-router-dom'
 
-const ProductsPage = () => {
+const ProductsPage = ({user}) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -81,7 +81,10 @@ const ProductsPage = () => {
               />
             </Link>
             <h2>{product.name}</h2>
+
             <p>Price: ${product.price}</p>
+
+
             <div className="quantity-container">
               <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
               <input
@@ -97,30 +100,48 @@ const ProductsPage = () => {
             </div>
             <button
               onClick={() => {
-                const quantity = parseInt(
-                  document.getElementById(`quantity-${product._id}`).value,
-                  10
+                const quantityInput = document.getElementById(
+                  `quantity-${product._id}`
                 )
+
                 handleAddToCart(
                   product._id,
                   quantity,
                   product.price,
                   product.discount || 0
                 )
+
+                const quantity = parseInt(quantityInput.value, 10)
+
+                if (!quantity || quantity <= 0) {
+                  alert('Please enter a valid quantity.')
+                  return
+                }
+
+              
+
               }}
+              className="action-button add-to-cart"
+              aria-label={`Add ${product.name} to cart`}
             >
               Add to Cart
             </button>
-            <button onClick={() => navigate(`/edit-product/${product._id}`)}>
-              Edit
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDelete(product._id)}
-              style={{ backgroundColor: 'red', color: 'white' }}
-            >
-              Delete Product
-            </button>
+         
+            {user?.isAdmin && (
+              <>
+                <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(product._id)}
+                  style={{ backgroundColor: 'red', color: 'white' }}
+                >
+                  Delete Product
+                </button>
+              </>
+            )}
+
           </div>
         ))
       ) : (

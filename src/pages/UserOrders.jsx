@@ -23,10 +23,10 @@ const UserOrders = () => {
   }, [])
 
   return (
-    <div>
+    <div className="user-orders-page">
       <h1>My Orders</h1>
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       {orders.length === 0 && !loading && !error && <p>No orders available</p>}
       {orders.length > 0 && (
         <table>
@@ -50,7 +50,7 @@ const UserOrders = () => {
                   ))}
                 </td>
                 <td>{order.status}</td>
-                <td>{order.totalPrice}</td>
+                <td>${order.totalPrice}</td>
               </tr>
             ))}
           </tbody>
