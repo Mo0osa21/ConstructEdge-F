@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { createProduct } from '../services/ProductServices'
 import { getCategories } from '../services/CategoryServices'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AdminProductForm = () => {
   const [productData, setProductData] = useState({
@@ -23,7 +25,7 @@ const AdminProductForm = () => {
         setCategories(categoriesFromDB)
       } catch (error) {
         console.error('Error fetching categories:', error)
-        alert('Failed to load categories. Please try again.')
+        toast.error('Failed to load categories. Please try again.')
       }
     }
 
@@ -39,7 +41,7 @@ const AdminProductForm = () => {
     e.preventDefault()
     try {
       await createProduct(productData)
-      alert('Product added successfully!')
+      toast.success('Product added successfully!')
       setProductData({
         name: '',
         description: '',
@@ -51,12 +53,13 @@ const AdminProductForm = () => {
       })
     } catch (error) {
       console.error('Error adding product:', error)
-      alert('Failed to add product. Please try again.')
+      toast.error('Failed to add product. Please try again.')
     }
   }
 
   return (
     <form className="product-form" onSubmit={handleSubmit}>
+      <ToastContainer />
       <h2 className="form-title">Add New Product</h2>
       <div className="form-group">
         <label className="form-label">Name:</label>

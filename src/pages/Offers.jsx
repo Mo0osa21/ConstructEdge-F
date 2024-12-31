@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { getProducts, deleteProduct } from '../services/ProductServices'
-import { addToCart } from '../services/CartServices' 
-import { useNavigate } from 'react-router-dom'//
+import { addToCart } from '../services/CartServices'
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-const Offers=(user)=>{
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+const Offers = (user) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   // State for managing quantities
   const navigate = useNavigate()
-  const [products, setProducts] = useState([])
-  const [error, setError] = useState(null)
 
   const [quantities, setQuantities] = useState({})
 
@@ -26,56 +26,51 @@ const Offers=(user)=>{
     fetchProducts()
   }, [])
 
-  const handleAddToCart = async (productId, quantity, price) => {
+  const handleAddToCart = async (productId, quantity, price, discount = 0) => {
     try {
       const products = [
         {
           product: productId,
-          quantity,
-          price
+          quantity: quantity,
+          price: price,
+          discount: discount
         }
       ]
       await addToCart(products)
-      alert('Product added to cart')
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [productId]: 0
+      }))
+      toast.success('Product added to cart successfully!')
     } catch (err) {
       console.error('Error adding product to cart:', err)
-      setError('Failed to add product to cart. Please try again.')
+      toast.error('Failed to add product. Please try again.')
+    }
+  }
+
+  const handleDelete = async (productId) => {
+    try {
+      await deleteProduct(productId)
+      toast.success('Product deleted successfully!')
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== productId)
+      )
+    } catch (err) {
+      console.error('Error details:', err.response?.data || err.message)
+      toast.error('Failed to delete product. Please try again.')
     }
   }
 
   const handleQuantityChange = (productId, event) => {
-    const newQuantity = Math.max(
-      1,
-      Math.min(
-        event.target.value,
-        products.find((product) => product._id === productId).stockQuantity
-      )
-    )
+    const newQuantity = Math.max(1, event.target.value)
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
       [productId]: newQuantity
     }))
   }
-  const handleDelete = async (productId) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this product?'
-    )
-    if (confirmDelete) {
-      try {
-        await deleteProduct(productId)
-        alert('Product deleted successfully!')
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId)
-        )
-      } catch (err) {
-        console.error('Error details:', err.response?.data || err.message)
-        setError('Failed to delete product. Please try again.')
-      }
-    }
-  }
-
   return (
     <div className="offers-page">
+      <ToastContainer />
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
         <div className="products-grid">
@@ -122,24 +117,25 @@ const Offers=(user)=>{
                 Add to Cart
               </button>
 
-              <button
-                onClick={() => navigate(`/edit-product/${product._id}`)}
-                className="action-button edit-button"
-              >
-                Edit
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDelete(product._id)}
-                aria-label={`Delete ${product.name}`}
-              >
-                Delete Product
-              </button>
+              {!user?.isAdmin && (
+                <>
+                  <button
+                    onClick={() => navigate(`/edit-product/${product._id}`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(product._id)}
+                    style={{ backgroundColor: 'red', color: 'white' }}
+                  >
+                    Delete Product
+                  </button>
+                </>
+              )}
             </div>
           ))}
         </div>
-
       ) : (
         <p className="empty-state-message">No products available</p>
       )}

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { getProducts, deleteProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { useNavigate, Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-const ProductsPage = ({user}) => {
+const ProductsPage = ({ user }) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -16,7 +18,7 @@ const ProductsPage = ({user}) => {
         setProducts(data)
       } catch (err) {
         console.error('Error fetching products:', err)
-        setError('Failed to fetch products.')
+        toast.error('Failed to fetch products.')
       }
     }
 
@@ -34,28 +36,27 @@ const ProductsPage = ({user}) => {
         }
       ]
       await addToCart(products)
-      alert('Product added to cart')
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [productId]: 0
+      }))
+      toast.success('Product added to cart successfully!')
     } catch (err) {
       console.error('Error adding product to cart:', err)
-      alert('Failed to add product to cart')
+      toast.error('Failed to add product. Please try again.')
     }
   }
 
   const handleDelete = async (productId) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this product?'
-    )
-    if (confirmDelete) {
-      try {
-        await deleteProduct(productId)
-        alert('Product deleted successfully!')
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId)
-        )
-      } catch (err) {
-        console.error('Error details:', err.response?.data || err.message)
-        setError('Failed to delete product. Please try again.')
-      }
+    try {
+      await deleteProduct(productId)
+      toast.success('Product deleted successfully!')
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== productId)
+      )
+    } catch (err) {
+      console.error('Error details:', err.response?.data || err.message)
+      toast.error('Failed to delete product. Please try again.')
     }
   }
 
@@ -69,6 +70,7 @@ const ProductsPage = ({user}) => {
 
   return (
     <div className="products-grid">
+      <ToastContainer />
       {error && <p className="error-message">{error}</p>}
       {products.length > 0 ? (
         products.map((product) => (
@@ -84,7 +86,6 @@ const ProductsPage = ({user}) => {
 
             <p>Price: ${product.price}</p>
 
-
             <div className="quantity-container">
               <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
               <input
@@ -99,37 +100,25 @@ const ProductsPage = ({user}) => {
               />
             </div>
             <button
-              onClick={() => {
-                const quantityInput = document.getElementById(
-                  `quantity-${product._id}`
-                )
-
+              onClick={() =>
                 handleAddToCart(
                   product._id,
-                  quantity,
-                  product.price,
-                  product.discount || 0
+                  quantities[product._id] || 1,
+                  product.price
                 )
-
-                const quantity = parseInt(quantityInput.value, 10)
-
-                if (!quantity || quantity <= 0) {
-                  alert('Please enter a valid quantity.')
-                  return
-                }
-
-              
-
-              }}
+              }
               className="action-button add-to-cart"
-              aria-label={`Add ${product.name} to cart`}
             >
               Add to Cart
             </button>
-         
-            {user?.isAdmin && (
+
+            {!user?.isAdmin && (
               <>
-                <button onClick={() => navigate(`/edit-product/${product._id}`)}>
+                <button
+                  onClick={() => navigate(`/edit-product/${product._id}`)}
+                  className="action-button edit-button"
+                  aria-label={`Edit details for ${product.name}`}
+                >
                   Edit
                 </button>
                 <button
@@ -141,7 +130,6 @@ const ProductsPage = ({user}) => {
                 </button>
               </>
             )}
-
           </div>
         ))
       ) : (

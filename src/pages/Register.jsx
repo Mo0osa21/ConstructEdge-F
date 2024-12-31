@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { RegisterUser } from '../services/Auth'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Register = () => {
   let navigate = useNavigate()
@@ -20,7 +22,7 @@ const Register = () => {
     e.preventDefault()
     try {
       if (formValues.password !== formValues.confirmPassword) {
-        alert('Passwords do not match!')
+        toast.error('Passwords do not match!')
         return
       }
       await RegisterUser({
@@ -34,14 +36,17 @@ const Register = () => {
         password: '',
         confirmPassword: ''
       })
+      toast.success('You have been registred successfully')
       navigate('/signin')
     } catch (error) {
       console.error('Registration failed:', error)
+      toast.error('Rgistraion Failed', error)
     }
   }
 
   return (
     <div className="register-form">
+      <ToastContainer />
       <h1 className="form-title">Register</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

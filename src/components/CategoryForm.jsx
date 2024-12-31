@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { createCategory } from '../services/CategoryServices'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const CategoryForm = () => {
   const [categoryData, setCategoryData] = useState({
@@ -16,19 +18,20 @@ const CategoryForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await createCategory(categoryData) 
-      setSuccess('Category added successfully!')
-      setError(null) 
-      setCategoryData({ name: '', description: '' }) 
+      await createCategory(categoryData)
+      toast.success('Category added successfully!')
+      setError(null)
+      setCategoryData({ name: '', description: '' })
     } catch (err) {
       console.error('Error creating category:', err)
-      setError('Failed to add category. Please try again.')
-      setSuccess(null) 
+      toast.error('Failed to add category. Please try again.')
+      setSuccess(null)
     }
   }
 
   return (
     <div>
+      <ToastContainer />
       <h1>Add Category</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -50,13 +53,11 @@ const CategoryForm = () => {
             required
           ></textarea>
         </div>
-        
-        
+
         <button type="submit">Add Category</button>
       </form>
     </div>
   )
 }
-
 
 export default CategoryForm
