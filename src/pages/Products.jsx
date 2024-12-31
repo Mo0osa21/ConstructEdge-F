@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react'
-
-import { addToCart } from '../services/CartServices'
 import CategoryDropdown from '../components/CategoryDropdown'
 import { getProductsByCategory } from '../services/ProductServices'
-
 import { getProducts, deleteProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { useNavigate, Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
 
 const ProductsPage = ({ user }) => {
   const [products, setProducts] = useState([])
@@ -84,8 +80,8 @@ const ProductsPage = ({ user }) => {
   }
 
   return (
-
     <div>
+      <ToastContainer />
       <h1>Browse Products</h1>
 
       <CategoryDropdown
@@ -165,7 +161,6 @@ const ProductsPage = ({ user }) => {
           <p>No products available</p>
         )}
       </div>
-
     </div>
   )
 }

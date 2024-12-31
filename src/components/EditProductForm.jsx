@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getProduct, updateProduct } from '../services/ProductServices'
 import { deleteProduct } from '../services/ProductServices'
 import { getCategories } from '../services/CategoryServices'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const EditProductForm = () => {
   const { productId } = useParams()
