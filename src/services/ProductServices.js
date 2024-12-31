@@ -1,14 +1,25 @@
 import Client from './api'
 
-export const getProducts = async () => {
+export const getProductsByCategory = async (categoryId) => {
   try {
-    const response = await Client.get('/products')
+    console.log(`Fetching products for: ${categoryId}`)
+    const response = await Client.get(`/products/?category=${categoryId}`)
+    console.log('Products by category:', response.data)
     return response.data
   } catch (error) {
-    console.error(
-      'Error fetching products:',
-      error.response?.data || error.message
-    )
+    console.error('Error fetching products by category:', error)
+    throw error
+  }
+}
+
+export const getProducts = async () => {
+  try {
+    console.log('Fetching all products')
+    const response = await Client.get('/products')
+    console.log('All products fetched:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching products:', error)
     throw error
   }
 }

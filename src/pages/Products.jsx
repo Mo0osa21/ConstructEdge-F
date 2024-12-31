@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
+
+import { addToCart } from '../services/CartServices'
+import CategoryDropdown from '../components/CategoryDropdown'
+import { getProductsByCategory } from '../services/ProductServices'
+
 import { getProducts, deleteProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { useNavigate, Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+
 const ProductsPage = ({ user }) => {
   const [products, setProducts] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('')
   const [error, setError] = useState(null)
   const navigate = useNavigate()
   const [quantities, setQuantities] = useState({})
@@ -14,7 +21,15 @@ const ProductsPage = ({ user }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getProducts()
+        let data
+        if (selectedCategory) {
+          console.log(`Fetching products for category: ${selectedCategory}`)
+          data = await getProductsByCategory(selectedCategory)
+        } else {
+          console.log('Fetching all products')
+          data = await getProducts()
+        }
+        console.log('Fetched products:', data)
         setProducts(data)
       } catch (err) {
         console.error('Error fetching products:', err)
@@ -23,7 +38,7 @@ const ProductsPage = ({ user }) => {
     }
 
     fetchProducts()
-  }, [])
+  }, [selectedCategory])
 
   const handleAddToCart = async (productId, quantity, price, discount = 0) => {
     try {
@@ -69,72 +84,88 @@ const ProductsPage = ({ user }) => {
   }
 
   return (
-    <div className="products-grid">
-      <ToastContainer />
-      {error && <p className="error-message">{error}</p>}
-      {products.length > 0 ? (
-        products.map((product) => (
-          <div key={product._id} className="product-card">
-            <Link to={`/product/${product._id}`}>
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="product-image"
-              />
-            </Link>
-            <h2>{product.name}</h2>
 
-            <p>Price: ${product.price}</p>
+    <div>
+      <h1>Browse Products</h1>
 
-            <div className="quantity-container">
-              <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
-              <input
-                type="number"
-                id={`quantity-${product._id}`}
-                name="quantity"
-                min="1"
-                max={product.stockQuantity}
-                value={quantities[product._id] || 1}
-                onChange={(e) => handleQuantityChange(product._id, e)}
-                className="quantity-input"
-              />
+      <CategoryDropdown
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
+
+      <div className="products-grid">
+        {error && <p className="error-message">{error}</p>}
+        {products && products.length > 0 ? (
+          products.map((product) => (
+            <div key={product._id} className="product-card">
+              <Link to={`/product/${product._id}`}>
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="product-image"
+                />
+              </Link>
+              <h2>{product.name}</h2>
+
+              <p>Price: ${product.price}</p>
+
+              <div className="quantity-container">
+                <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
+                <input
+                  type="number"
+                  id={`quantity-${product._id}`}
+                  name="quantity"
+                  min="1"
+                  max={product.stockQuantity}
+                  value={quantities[product._id] || 1} // Controlled input
+                  onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
+                  className="quantity-input"
+                />
+              </div>
+
+              <button
+                onClick={() => {
+                  const quantityInput = document.getElementById(
+                    `quantity-${product._id}`
+                  )
+                  const quantity = parseInt(quantityInput.value, 10)
+
+                  if (!quantity || quantity <= 0) {
+                    alert('Please enter a valid quantity.')
+                    return
+                  }
+
+                  handleAddToCart(product._id, quantity, product.price) // Pass the product's price
+                }}
+                className="action-button add-to-cart"
+                aria-label={`Add ${product.name} to cart`}
+              >
+                Add to Cart
+              </button>
+
+              <button
+                onClick={() => navigate(`/edit-product/${product._id}`)}
+                className="action-button edit-button"
+                aria-label={`Edit details for ${product.name}`}
+              >
+                Edit
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="action-button delete-button"
+                aria-label={`Delete ${product.name}`}
+              >
+                Delete Product
+              </button>
             </div>
-            <button
-              onClick={() =>
-                handleAddToCart(
-                  product._id,
-                  quantities[product._id] || 1,
-                  product.price
-                )
-              }
-              className="action-button add-to-cart"
-            >
-              Add to Cart
-            </button>
+          ))
+        ) : (
+          <p>No products available</p>
+        )}
+      </div>
 
-            {!user?.isAdmin && (
-              <>
-                <button
-                  onClick={() => navigate(`/edit-product/${product._id}`)}
-                  className="action-button edit-button"
-                  aria-label={`Edit details for ${product.name}`}
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(product._id)}
-                  style={{ backgroundColor: 'red', color: 'white' }}
-                >
-                  Delete Product
-                </button>
-              </>
-            )}
-          </div>
-        ))
-      ) : (
-        <p>No products available</p>
-      )}
     </div>
   )
 }
