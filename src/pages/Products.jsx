@@ -147,12 +147,7 @@ const ProductsPage = ({ user }) => {
                 Edit
               </button>
 
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="action-button delete-button"
-                aria-label={`Delete ${product.name}`}
-              >
+              <button type="button" onClick={() => handleDelete(product._id)}>
                 Delete Product
               </button>
             </div>
