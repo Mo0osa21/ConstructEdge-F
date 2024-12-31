@@ -4,7 +4,6 @@ import {
   updateCartItem,
   removeCartItem
 } from '../services/CartServices'
-import { getProduct } from '../services/ProductServices'
 import { placeOrder } from '../services/OrderServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -20,9 +19,16 @@ const CartPage = () => {
       try {
         const cartData = await getCart()
         setCart(cartData)
+        // Initialize quantities for each cart item
+        const initialQuantities = {}
+        cartData.products.forEach((item) => {
+          initialQuantities[item.product._id] = item.quantity
+        })
+        setQuantities(initialQuantities)
       } catch (error) {
         console.error('Error fetching cart:', error.message)
         toast.error('Failed to load cart. Please try again.')
+        setError('Failed to load cart. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -31,12 +37,18 @@ const CartPage = () => {
     fetchCart()
   }, [])
 
-  const handleQuantityChange = (productId, event) => {
+  const handleQuantityChange = async (productId, event) => {
     const newQuantity = Math.max(1, event.target.value)
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
       [productId]: newQuantity
     }))
+
+    try {
+      await updateCartItem(productId, newQuantity)
+    } catch (error) {
+      toast.error('Error updating cart item quantity:', error.message)
+    }
   }
 
   const handleRemoveItem = async (productId) => {
@@ -51,7 +63,8 @@ const CartPage = () => {
   const handleCheckout = async () => {
     try {
       const response = await placeOrder()
-      setCart(null)
+      toast.success('Order placed successfully!')
+      setCart(null) // Clear the cart after successful order
     } catch (error) {
       toast.error('Error placing order:', error.message)
       setError('Failed to place the order. Please try again.')
@@ -62,6 +75,12 @@ const CartPage = () => {
 
   if (!cart || cart.products.length === 0) {
     return <p>Your cart is empty!</p>
+  }
+
+  const calculateTotalPrice = () => {
+    return cart.products.reduce((total, item) => {
+      return total + item.product.price * quantities[item.product._id]
+    }, 0)
   }
 
   return (
@@ -91,12 +110,12 @@ const CartPage = () => {
                   name="quantity"
                   min="1"
                   max={item.product.stockQuantity}
-                  value={quantities[item.product._id] || 1} // Controlled input
-                  onChange={(e) => handleQuantityChange(item.product._id, e)} // Update quantity
+                  value={quantities[item.product._id] || 1}
+                  onChange={(e) => handleQuantityChange(item.product._id, e)}
                   className="quantity-input"
                 />
               </td>
-              <td>${item.price}</td>
+              <td>${item.product.price * quantities[item.product._id] || 0}</td>
               <td>
                 <button
                   className="remove-item-btn"
@@ -110,7 +129,7 @@ const CartPage = () => {
         </tbody>
       </table>
       <div className="cart-summary">
-        <h2>Total: ${cart.totalPrice}</h2>
+        <h2>Total: ${calculateTotalPrice().toFixed(2)}</h2>
         <button className="checkout-btn" onClick={handleCheckout}>
           Checkout
         </button>

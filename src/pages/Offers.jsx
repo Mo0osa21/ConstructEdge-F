@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
 const Offers = (user) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
-  // State for managing quantities
   const navigate = useNavigate()
 
   const [quantities, setQuantities] = useState({})
@@ -68,6 +68,7 @@ const Offers = (user) => {
       [productId]: newQuantity
     }))
   }
+
   return (
     <div className="offers-page">
       <ToastContainer />
@@ -86,47 +87,61 @@ const Offers = (user) => {
               <h2 className="product-name">{product.name}</h2>
 
               <p className="product-price">
-                Price with discount: ${product.price * (product.discount / 100)}
+                Price with discount: $
+                {(product.price * (1 - product.discount / 100)).toFixed(2)}
               </p>
               <p className="product-discount">Discount: {product.discount}%</p>
 
-              <div className="quantity-container">
-                <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
-                <input
-                  type="number"
-                  id={`quantity-${product._id}`}
-                  name="quantity"
-                  min="1"
-                  max={product.stockQuantity}
-                  value={quantities[product._id] || 1}
-                  onChange={(e) => handleQuantityChange(product._id, e)}
-                  className="quantity-input"
-                />
-              </div>
+              {/* Check stock quantity */}
+              {product.stockQuantity > 0 ? (
+                <>
+                  <div className="quantity-container">
+                    <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
+                    <input
+                      type="number"
+                      id={`quantity-${product._id}`}
+                      name="quantity"
+                      min="1"
+                      max={product.stockQuantity}
+                      value={quantities[product._id] || 1}
+                      onChange={(e) => handleQuantityChange(product._id, e)}
+                      className="quantity-input"
+                    />
+                  </div>
 
-              <button
-                onClick={() =>
-                  handleAddToCart(
-                    product._id,
-                    quantities[product._id] || 1,
-                    product.price
-                  )
-                }
-                className="action-button add-to-cart"
-              >
-                Add to Cart
-              </button>
+                  <button
+                    onClick={() =>
+                      handleAddToCart(
+                        product._id,
+                        quantities[product._id] || 1,
+                        product.price,
+                        product.discount
+                      )
+                    }
+                    className="action-button add-to-cart"
+                  >
+                    Add to Cart
+                  </button>
+                </>
+              ) : (
+                <p className="out-of-stock">Out of Stock</p>
+              )}
 
-              <>
+              <div>
                 <button
                   onClick={() => navigate(`/edit-product/${product._id}`)}
+                  className="action-button edit-button"
                 >
                   Edit
                 </button>
-                <button type="button" onClick={() => handleDelete(product._id)}>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(product._id)}
+                  className="action-button delete-button"
+                >
                   Delete Product
                 </button>
-              </>
+              </div>
             </div>
           ))}
         </div>

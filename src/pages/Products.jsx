@@ -124,7 +124,6 @@ const ProductsPage = ({ user }) => {
                 </div>
               )}
 
-              {/* Show 'Add to Cart' only if product is in stock */}
               {product.stockQuantity > 0 && (
                 <button
                   onClick={() => {
