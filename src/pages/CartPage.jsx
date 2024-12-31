@@ -4,6 +4,7 @@ import {
   updateCartItem,
   removeCartItem
 } from '../services/CartServices'
+import { getProduct } from '../services/ProductServices'
 import { placeOrder } from '../services/OrderServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,6 +13,7 @@ const CartPage = () => {
   const [cart, setCart] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [quantities, setQuantities] = useState({})
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -29,15 +31,12 @@ const CartPage = () => {
     fetchCart()
   }, [])
 
-  const handleQuantityChange = async (productId, newQuantity) => {
-    if (newQuantity < 1) return
-
-    try {
-      const updatedCart = await updateCartItem(productId, newQuantity)
-      setCart(updatedCart)
-    } catch (error) {
-      toast.error('Error updating cart item:', error.message)
-    }
+  const handleQuantityChange = (productId, event) => {
+    const newQuantity = Math.max(1, event.target.value)
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: newQuantity
+    }))
   }
 
   const handleRemoveItem = async (productId) => {
@@ -88,14 +87,13 @@ const CartPage = () => {
               <td>
                 <input
                   type="number"
+                  id={`quantity-${item.product._id}`}
+                  name="quantity"
                   min="1"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleQuantityChange(
-                      item.product._id,
-                      parseInt(e.target.value)
-                    )
-                  }
+                  max={item.product.stockQuantity}
+                  value={quantities[item.product._id] || 1} // Controlled input
+                  onChange={(e) => handleQuantityChange(item.product._id, e)} // Update quantity
+                  className="quantity-input"
                 />
               </td>
               <td>${item.price}</td>
