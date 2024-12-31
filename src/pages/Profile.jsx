@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { updateUser } from '../services/UserServices'
+import { RegisterUser } from '../services/Auth' // Update this import to reflect your existing Auth.js functions
 
 const Profile = ({ user, setUser }) => {
   const [formValues, setFormValues] = useState({
@@ -15,13 +15,21 @@ const Profile = ({ user, setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const updateUser = await updateUser(user.id, formValues)
-      setUser(updateUser)
-      setMessage('Profile is updated!')
+      // Assuming Auth.js has a function to register/update user
+      const updatedUser = await RegisterUser({
+        name: formValues.username, // Replace with the correct property name from your backend
+        password: formValues.password
+      })
+      setUser(updatedUser) // Update the user in state
+      setMessage('Profile updated successfully!')
     } catch (err) {
       console.error('Error updating profile:', err.message)
       setMessage('Failed to update profile. Please try again.')
     }
+  }
+
+  if (!user) {
+    return <p>Loading user data...</p>
   }
 
   return (
@@ -34,7 +42,17 @@ const Profile = ({ user, setUser }) => {
           <input
             type="text"
             name="username"
-            value={formvalues.username}
+            value={formValues.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formValues.password}
             onChange={handleChange}
             required
           />
@@ -44,4 +62,5 @@ const Profile = ({ user, setUser }) => {
     </div>
   )
 }
+
 export default Profile
