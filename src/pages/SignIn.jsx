@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { SignInUser } from '../services/Auth'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const SignIn = ({ setUser }) => {
   let navigate = useNavigate()
@@ -16,14 +18,18 @@ const SignIn = ({ setUser }) => {
       const payload = await SignInUser(formValues)
       setFormValues({ email: '', password: '' })
       setUser(payload)
-      navigate('/products')
+
+      navigate('/')
+      toast.success('You siggned in successfully')
     } catch (error) {
       console.error('Sign-in failed:', error)
+      toast.error('Sign-in failed:', error)
     }
   }
 
   return (
     <div className="login-form">
+      <ToastContainer />
       <h1 className="form-title">Sign In</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

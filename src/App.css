@@ -25,6 +25,8 @@ body {
   background-attachment: fixed; /* Keeps background fixed during scrolling */
   color: var(--text-color);
   height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Container for the form */
@@ -38,6 +40,7 @@ body {
   box-shadow: 0 4px 20px var(--box-shadow);
   backdrop-filter: blur(12px);
   border: 1px solid var(--input-border);
+  width: 100%;
 }
 
 /* Title of the form */

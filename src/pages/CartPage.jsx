@@ -5,6 +5,8 @@ import {
   removeCartItem
 } from '../services/CartServices'
 import { placeOrder } from '../services/OrderServices'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const CartPage = () => {
   const [cart, setCart] = useState(null)
@@ -18,7 +20,7 @@ const CartPage = () => {
         setCart(cartData)
       } catch (error) {
         console.error('Error fetching cart:', error.message)
-        setError('Failed to load cart. Please try again.')
+        toast.error('Failed to load cart. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -34,8 +36,7 @@ const CartPage = () => {
       const updatedCart = await updateCartItem(productId, newQuantity)
       setCart(updatedCart)
     } catch (error) {
-      console.error('Error updating cart item:', error.message)
-      setError('Failed to update item. Please try again.')
+      toast.error('Error updating cart item:', error.message)
     }
   }
 
@@ -44,8 +45,7 @@ const CartPage = () => {
       const updatedCart = await removeCartItem(productId)
       setCart(updatedCart)
     } catch (error) {
-      console.error('Error removing cart item:', error.message)
-      setError('Failed to remove item. Please try again.')
+      toast.error('Error removing cart item:', error.message)
     }
   }
 
@@ -54,7 +54,7 @@ const CartPage = () => {
       const response = await placeOrder()
       setCart(null)
     } catch (error) {
-      console.error('Error placing order:', error.message)
+      toast.error('Error placing order:', error.message)
       setError('Failed to place the order. Please try again.')
     }
   }
@@ -67,6 +67,7 @@ const CartPage = () => {
 
   return (
     <div className="cart-page">
+      <ToastContainer />
       <h1>Your Cart</h1>
       {error && <p className="error-message">{error}</p>}
       <table className="cart-table">

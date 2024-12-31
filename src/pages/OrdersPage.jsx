@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getAllOrders, updateOrderStatus } from '../services/OrderServices'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([])
@@ -13,7 +15,7 @@ const OrdersPage = () => {
         setOrders(ordersData)
       } catch (error) {
         console.error('Error fetching orders:', error.message)
-        setError('Failed to fetch orders. Please try again.')
+        toast.error('Failed to fetch orders. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -44,6 +46,7 @@ const OrdersPage = () => {
 
   return (
     <div className="orders-page">
+      <ToastContainer />
       <h1>All Orders</h1>
       <table>
         <thead>

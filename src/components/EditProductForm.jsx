@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getProduct, updateProduct } from '../services/ProductServices'
 import { deleteProduct } from '../services/ProductServices'
 import { getCategories } from '../services/CategoryServices'
+import { toast } from 'react-toastify'
 
 const EditProductForm = () => {
   const { productId } = useParams()
@@ -26,7 +27,7 @@ const EditProductForm = () => {
         setProductData(product)
       } catch (err) {
         console.error('Error fetching product details:', err)
-        setError('Failed to load product details.')
+        toast.error('Failed to load product details.')
       }
     }
     const fetchCategories = async () => {
@@ -35,7 +36,7 @@ const EditProductForm = () => {
         setCategories(categoriesFromDB)
       } catch (error) {
         console.error('Error fetching categories:', error)
-        alert('Failed to load categories. Please try again.')
+        toast.error('Failed to load categories. Please try again.')
       }
     }
 
@@ -60,30 +61,14 @@ const EditProductForm = () => {
     try {
       console.log('Submitting data to update:', updatedData)
       await updateProduct(productId, updatedData)
-      alert('Product updated successfully!')
+      toast.success('Product updated successfully!')
       navigate('/products')
     } catch (err) {
       console.error(
         'Error updating product:',
         err.response?.data || err.message
       )
-      setError('Failed to update product. Please try again.')
-    }
-  }
-
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this product?'
-    )
-    if (confirmDelete) {
-      try {
-        await deleteProduct(productId)
-        alert('Product deleted successfully!')
-        navigate('/products')
-      } catch (err) {
-        console.error('Error deleting product:', err)
-        setError('Failed to delete product. Please try again.')
-      }
+      toast.error('Failed to update product. Please try again.')
     }
   }
 
@@ -93,6 +78,7 @@ const EditProductForm = () => {
 
   return (
     <div className="form-container">
+      <ToastContainer />
       <form className="product-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Edit Product</h2>
         <div className="form-group">

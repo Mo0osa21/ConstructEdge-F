@@ -19,6 +19,8 @@ import UserOrders from './pages/UserOrders'
 import EditProductPage from './pages/EditProductPage'
 
 import ProductDetails from './pages/ProductDetails'
+import Profile from './pages/Profile'
+
 const App = () => {
   
   const [user, setUser] = useState(null)
@@ -47,7 +49,7 @@ const App = () => {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={user} />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
 
@@ -58,11 +60,18 @@ const App = () => {
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/userorders" element={<UserOrders />} />
 
-          <Route path="/edit-product/:productId" element={<EditProductPage />}/>
+          <Route
+            path="/edit-product/:productId"
+            element={<EditProductPage />}
+          />
 
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/categories" element={<CategoryForm />} />
 
+          <Route
+            path="/profile"
+            element={<Profile user={user} setUser={setUser} />}
+          />
         </Routes>
       </main>
     </div>
