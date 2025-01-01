@@ -53,6 +53,12 @@ const EditProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    // Validate discount on submission
+    if (productData.discount > 100) {
+      toast.error('Discount cannot exceed 100%. Please adjust the value.')
+      return
+    }
+
     const updatedData = {
       ...productData,
       price: productData.price,

@@ -82,7 +82,9 @@ const ProductsPage = ({ user }) => {
   return (
     <div>
       <ToastContainer />
-      <h1>Browse Products</h1>
+      <div className="browse-products-header">
+        <h1>Browse Products</h1>
+      </div>
 
       <CategoryDropdown
         selectedCategory={selectedCategory}
@@ -105,7 +107,6 @@ const ProductsPage = ({ user }) => {
 
               <p>Price: ${product.price}</p>
 
-              {/* Check if stock quantity is 0 */}
               {product.stockQuantity === 0 ? (
                 <p className="out-of-stock">Out of Stock</p>
               ) : (
