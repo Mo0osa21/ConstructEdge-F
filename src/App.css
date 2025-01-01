@@ -974,17 +974,12 @@ h3 {
 }
 
 .footer {
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-  color: #fff; /* White text */
-  text-align: center; /* Centered text */
-  padding: 1.5em 0; /* Padding for top and bottom */
-
   left: 0;
-
+  bottom: 0;
   width: 100%;
-  font-size: 0.9em; /* Slightly smaller text */
-  transition: bottom 0.3s ease-in-out; /* Smooth transition when footer comes in */
-  z-index: 1000; /* Ensures footer is on top */
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  color: white;
+  text-align: center;
 }
 
 .footer a {
@@ -1063,4 +1058,8 @@ h3 {
   font-weight: bold;
   color: var(--heading-color);
   margin: 0;
+}
+
+main {
+  padding-bottom: 20px;
 }
