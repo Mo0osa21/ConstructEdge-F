@@ -20,9 +20,9 @@ import EditProductPage from './pages/EditProductPage'
 
 import ProductDetails from './pages/ProductDetails'
 import Profile from './pages/Profile'
+import Footer from './components/Footer'
 
 const App = () => {
-  
   const [user, setUser] = useState(null)
 
   const handleLogOut = () => {
@@ -49,31 +49,29 @@ const App = () => {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-        <Route path="/" element={<Home user={user} />} />
-          <Route path="/signin" element={<SignIn setUser={setUser} />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home user={user} />} />
 
-          <Route path='/products' element={<ProductsPage/>}/>
-          <Route path='/offers' element={<Offers/>}/>
+          <Route path="/register" element={<Register />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/offers" element={<Offers />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/userorders" element={<UserOrders />} />
-
           <Route
             path="/edit-product/:productId"
             element={<EditProductPage />}
           />
-
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/categories" element={<CategoryForm />} />
-
+          <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route
             path="/profile"
             element={<Profile user={user} setUser={setUser} />}
           />
         </Routes>
       </main>
+      <Footer />
     </div>
   )
 }

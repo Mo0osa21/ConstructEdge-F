@@ -70,31 +70,34 @@ const Offers = (user) => {
   }
 
   return (
-    <div className="offers-page">
+    <div>
       <ToastContainer />
-      {error && <p className="error-message">{error}</p>}
-      {products.length > 0 ? (
-        <div className="products-grid">
-          {products.map((product) => (
-            <div key={product._id} className="product-card">
-              <Link to={`/product/${product._id}`}>
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="product-image"
-                />
-              </Link>
-              <h2 className="product-name">{product.name}</h2>
+      <div className="browse-products-header">
+        <h1>Browse Products</h1>
+      </div>
+      <div className="offers-page">
+        {error && <p className="error-message">{error}</p>}
+        {products.length > 0 ? (
+          <div className="products-grid">
+            {products.map((product) => (
+              <div key={product._id} className="product-card">
+                <Link to={`/product/${product._id}`}>
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="product-image"
+                  />
+                </Link>
+                <h2 className="product-name">{product.name}</h2>
 
-              <p className="product-price">
-                Price with discount: $
-                {(product.price * (1 - product.discount / 100)).toFixed(2)}
-              </p>
-              <p className="product-discount">Discount: {product.discount}%</p>
+                <p>Price: ${product.price}</p>
+                <p className="product-discount">
+                  Discount: {product.discount}%
+                </p>
 
-              {/* Check stock quantity */}
-              {product.stockQuantity > 0 ? (
-                <>
+                {product.stockQuantity === 0 ? (
+                  <p className="out-of-stock">Out of Stock</p>
+                ) : (
                   <div className="quantity-container">
                     <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
                     <input
@@ -103,51 +106,53 @@ const Offers = (user) => {
                       name="quantity"
                       min="1"
                       max={product.stockQuantity}
-                      value={quantities[product._id] || 1}
-                      onChange={(e) => handleQuantityChange(product._id, e)}
+                      value={quantities[product._id] || 1} // Controlled input
+                      onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
                       className="quantity-input"
                     />
                   </div>
+                )}
 
+                {product.stockQuantity > 0 && (
                   <button
-                    onClick={() =>
-                      handleAddToCart(
-                        product._id,
-                        quantities[product._id] || 1,
-                        product.price,
-                        product.discount
+                    onClick={() => {
+                      const quantityInput = document.getElementById(
+                        `quantity-${product._id}`
                       )
-                    }
+                      const quantity = parseInt(quantityInput.value, 10)
+
+                      if (!quantity || quantity <= 0) {
+                        alert('Please enter a valid quantity.')
+                        return
+                      }
+
+                      handleAddToCart(product._id, quantity, product.price) // Pass the product's price
+                    }}
                     className="action-button add-to-cart"
+                    aria-label={`Add ${product.name} to cart`}
                   >
                     Add to Cart
                   </button>
-                </>
-              ) : (
-                <p className="out-of-stock">Out of Stock</p>
-              )}
+                )}
 
-              <div>
                 <button
                   onClick={() => navigate(`/edit-product/${product._id}`)}
                   className="action-button edit-button"
+                  aria-label={`Edit details for ${product.name}`}
                 >
                   Edit
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(product._id)}
-                  className="action-button delete-button"
-                >
+
+                <button type="button" onClick={() => handleDelete(product._id)}>
                   Delete Product
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className="empty-state-message">No products available</p>
-      )}
+            ))}
+          </div>
+        ) : (
+          <p className="empty-state-message">No products available</p>
+        )}
+      </div>
     </div>
   )
 }

@@ -20,12 +20,15 @@ const CategoryDropdown = ({ selectedCategory, onCategoryChange }) => {
   }, [])
 
   return (
-    <div>
-      <label htmlFor="category-select">Filter by Category:</label>
+    <div className="category-dropdown-container">
+      <label htmlFor="category-select" className="category-label">
+        Filter by Category:
+      </label>
       <select
         id="category-select"
         value={selectedCategory}
         onChange={(event) => onCategoryChange(event.target.value)}
+        className="category-dropdown"
       >
         <option value="">All Categories</option>
         {categories.map((category) => (
@@ -34,6 +37,7 @@ const CategoryDropdown = ({ selectedCategory, onCategoryChange }) => {
           </option>
         ))}
       </select>
+      {error && <p className="error-message">{error}</p>}
     </div>
   )
 }

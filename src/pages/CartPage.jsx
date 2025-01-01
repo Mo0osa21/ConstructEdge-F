@@ -4,6 +4,7 @@ import {
   updateCartItem,
   removeCartItem
 } from '../services/CartServices'
+import { getProduct } from '../services/ProductServices'
 import { placeOrder } from '../services/OrderServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,7 +20,6 @@ const CartPage = () => {
       try {
         const cartData = await getCart()
         setCart(cartData)
-        // Initialize quantities for each cart item
         const initialQuantities = {}
         cartData.products.forEach((item) => {
           initialQuantities[item.product._id] = item.quantity
@@ -39,13 +39,25 @@ const CartPage = () => {
 
   const handleQuantityChange = async (productId, event) => {
     const newQuantity = Math.max(1, event.target.value)
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: newQuantity
-    }))
 
     try {
+      const product = await getProduct(productId)
+      if (newQuantity > product.stockQuantity) {
+        toast.error(
+          `Only ${product.stockQuantity} units of "${product.name}" are available.`
+        )
+        setQuantities((prevQuantities) => ({
+          ...prevQuantities,
+          [productId]: product.stockQuantity
+        }))
+        return
+      }
+
       await updateCartItem(productId, newQuantity)
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [productId]: newQuantity
+      }))
     } catch (error) {
       toast.error('Error updating cart item quantity:', error.message)
     }
@@ -62,9 +74,37 @@ const CartPage = () => {
 
   const handleCheckout = async () => {
     try {
-      const response = await placeOrder()
+      let needsUpdate = false
+
+      // Validate cart items against real-time stock
+      for (const item of cart.products) {
+        const product = await getProduct(item.product._id)
+        const desiredQuantity = quantities[item.product._id]
+
+        if (desiredQuantity > product.stockQuantity) {
+          needsUpdate = true
+          toast.error(
+            `Adjusted "${item.product.name}" quantity to ${product.stockQuantity} due to stock limitations.`
+          )
+          setQuantities((prevQuantities) => ({
+            ...prevQuantities,
+            [item.product._id]: product.stockQuantity
+          }))
+          await updateCartItem(item.product._id, product.stockQuantity)
+        }
+      }
+
+      if (needsUpdate) {
+        toast.info(
+          'Your cart has been updated to match current stock. Please review and checkout again.'
+        )
+        return
+      }
+
+      // Proceed with order placement if no updates are needed
+      await placeOrder()
       toast.success('Order placed successfully!')
-      setCart(null) // Clear the cart after successful order
+      setCart(null)
     } catch (error) {
       toast.error('Error placing order:', error.message)
       setError('Failed to place the order. Please try again.')
@@ -115,7 +155,9 @@ const CartPage = () => {
                   className="quantity-input"
                 />
               </td>
-              <td>${item.product.price * quantities[item.product._id] || 0}</td>
+              <td>
+                ${item.product.price * (quantities[item.product._id] || 1)}
+              </td>
               <td>
                 <button
                   className="remove-item-btn"

@@ -28,48 +28,50 @@ const SignIn = ({ setUser }) => {
   }
 
   return (
-    <div className="login-form">
-      <ToastContainer />
-      <h1 className="form-title">Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="form-input"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter your email"
-            value={formValues.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="password">
-            Password
-          </label>
-          <input
-            className="form-input"
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter your password"
-            value={formValues.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button
-          className="form-submit-button"
-          type="submit"
-          disabled={!formValues.email || !formValues.password}
-        >
-          SignIn
-        </button>
-      </form>
+    <div>
+      <ToastContainer style={{ marginTop: '5rem' }} />
+      <div className="login-form">
+        <h1 className="form-title">Sign In</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="form-input"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter your email"
+              value={formValues.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="form-input"
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter your password"
+              value={formValues.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button
+            className="form-submit-button"
+            type="submit"
+            disabled={!formValues.email || !formValues.password}
+          >
+            SignIn
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
