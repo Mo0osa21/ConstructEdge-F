@@ -17,6 +17,8 @@ const Nav = ({ user, handleLogOut }) => {
         <Link to="/admin" className="nav-link">
           Add New Product
         </Link>
+        <Link to="/orders">manage orders</Link>
+        <Link to="/categories">add a new category</Link>
         <Link onClick={handleLogOut} to="/" className="nav-link">
           Sign Out
         </Link>
@@ -33,6 +35,8 @@ const Nav = ({ user, handleLogOut }) => {
         </Link>
    
         <Link to="Offers">Offers</Link>
+        <Link to="/cart">cart</Link>
+        <Link to="/userorders">orders</Link>
 
         <Link to="/products">products</Link>
         <Link onClick={handleLogOut} to="/">

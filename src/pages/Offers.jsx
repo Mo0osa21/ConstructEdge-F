@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Offers = (user) => {
+const Offers = ({user}) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -98,6 +98,7 @@ const Offers = (user) => {
                 {product.stockQuantity === 0 ? (
                   <p className="out-of-stock">Out of Stock</p>
                 ) : (
+                  !user?.isAdmin && (
                   <div className="quantity-container">
                     <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
                     <input
@@ -111,9 +112,10 @@ const Offers = (user) => {
                       className="quantity-input"
                     />
                   </div>
+                  )
                 )}
 
-                {product.stockQuantity > 0 && (
+                {product.stockQuantity > 0 && !user?.isAdmin && (
                   <button
                     onClick={() => {
                       const quantityInput = document.getElementById(
@@ -134,6 +136,8 @@ const Offers = (user) => {
                     Add to Cart
                   </button>
                 )}
+                 {user?.isAdmin && (
+                <>
 
                 <button
                   onClick={() => navigate(`/edit-product/${product._id}`)}
@@ -146,6 +150,8 @@ const Offers = (user) => {
                 <button type="button" onClick={() => handleDelete(product._id)}>
                   Delete Product
                 </button>
+                </>
+              )}
               </div>
             ))}
           </div>

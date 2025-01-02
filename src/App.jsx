@@ -6,6 +6,8 @@ import SignIn from './pages/SignIn'
 import Home from './pages/Home'
 import CategoryForm from './components/CategoryForm'
 
+
+
 import ProductsPage from './pages/Products'
 import AdminPage from './pages/AdminPage'
 
@@ -17,7 +19,6 @@ import { CheckSession } from './services/Auth'
 import { useEffect } from 'react'
 import UserOrders from './pages/UserOrders'
 import EditProductPage from './pages/EditProductPage'
-
 import ProductDetails from './pages/ProductDetails'
 import Profile from './pages/Profile'
 import Footer from './components/Footer'
@@ -52,8 +53,8 @@ const App = () => {
           <Route path="/" element={<Home user={user} />} />
 
           <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/offers" element={<Offers />} />
+          <Route path="/products" element={<ProductsPage user={user} />} />
+          <Route path="/offers" element={<Offers user={user} />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrdersPage />} />
