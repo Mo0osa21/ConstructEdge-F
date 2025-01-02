@@ -111,26 +111,23 @@ const ProductsPage = ({ user }) => {
                 <p className="out-of-stock">Out of Stock</p>
               ) : (
                 !user?.isAdmin && (
-                <div className="quantity-container">
-                  <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
-                  <input
-                    type="number"
-                    id={`quantity-${product._id}`}
-                    name="quantity"
-                    min="1"
-                    max={product.stockQuantity}
-                    value={quantities[product._id] || 1} // Controlled input
-                    onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
-                    className="quantity-input"
-                  />
-                </div>
+                  <div className="quantity-container">
+                    <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
+                    <input
+                      type="number"
+                      id={`quantity-${product._id}`}
+                      name="quantity"
+                      min="1"
+                      max={product.stockQuantity}
+                      value={quantities[product._id] || 1} // Controlled input
+                      onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
+                      className="quantity-input"
+                    />
+                  </div>
                 )
               )}
 
-
               {product.stockQuantity > 0 && !user?.isAdmin && (
-                
-
                 <button
                   onClick={() => {
                     const quantityInput = document.getElementById(
@@ -150,12 +147,9 @@ const ProductsPage = ({ user }) => {
                 >
                   Add to Cart
                 </button>
-                
               )}
-                
-              
-             
-             {user?.isAdmin && (
+
+              {user?.isAdmin && (
                 <>
                   <button
                     onClick={() => navigate(`/edit-product/${product._id}`)}
@@ -167,7 +161,6 @@ const ProductsPage = ({ user }) => {
                   <button
                     type="button"
                     onClick={() => handleDelete(product._id)}
-                    className="action-button delete-button"
                   >
                     Delete Product
                   </button>

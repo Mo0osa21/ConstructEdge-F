@@ -32,29 +32,34 @@ const CategoryForm = () => {
   return (
     <div>
       <ToastContainer />
-      <h1>Add Category</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Category Name:</label>
+
+      <form className="product-form" onSubmit={handleSubmit}>
+        <h1 className="form-title">Add Category</h1>
+        <div className="form-group">
+          <label className="form-label">Category Name:</label>
           <input
             type="text"
             name="name"
             value={categoryData.name}
             onChange={handleChange}
+            className="form-input"
             required
           />
         </div>
-        <div>
-          <label>Description:</label>
+        <div className="form-group">
+          <label className="form-label">Description:</label>
           <textarea
             name="description"
             value={categoryData.description}
             onChange={handleChange}
+            className="form-input"
             required
           ></textarea>
         </div>
 
-        <button type="submit">Add Category</button>
+        <button type="submit" className="form-submit-button">
+          Add Category
+        </button>
       </form>
     </div>
   )

@@ -4,53 +4,54 @@ const Nav = ({ user, handleLogOut }) => {
   if (user?.isAdmin) {
     userOptions = (
       <nav className="nav">
-        <h3>Welcome {user.email} to Construct Edge!</h3>
-        <Link to="/" className="nav-link">
-          Home
+        <h3 className="nav-welcome">Welcome {user.name} to Construct Edge!</h3>
+        <Link to="/products" className="nav-link">
+          Products
         </Link>
         <Link to="Offers" className="nav-link">
           Offers
         </Link>
-        <Link to="/products" className="nav-link">
-          Products
-        </Link>
+
         <Link to="/admin" className="nav-link">
           Add New Product
         </Link>
-        <Link to="/orders">manage orders</Link>
-        <Link to="/categories">add a new category</Link>
+        <Link to="/categories" className="nav-link">
+          Add New Category
+        </Link>
+        <Link to="/orders" className="nav-link">
+          Manage Orders
+        </Link>
+
         <Link onClick={handleLogOut} to="/" className="nav-link">
           Sign Out
         </Link>
       </nav>
     )
-  }else if(user){
+  } else if (user) {
     userOptions = (
-      <nav >
-        <h3>Welcome {user.email} to Construct Edge!</h3>
-
-        
-        <Link to="/">
-        Home 
+      <nav>
+        <h3 className="nav-welcome">Welcome {user.name} to Construct Edge!</h3>
+        <Link to="/products" className="nav-link">
+          products
         </Link>
-   
-        <Link to="Offers">Offers</Link>
-        <Link to="/cart">cart</Link>
-        <Link to="/userorders">orders</Link>
+        <Link to="Offers" className="nav-link">
+          Offers
+        </Link>
+        <Link to="/cart" className="nav-link">
+          cart
+        </Link>
+        <Link to="/userorders" className="nav-link">
+          orders
+        </Link>
 
-        <Link to="/products">products</Link>
         <Link onClick={handleLogOut} to="/">
           Sign Out
         </Link>
-       
       </nav>
     )
   }
   const publicOptions = (
     <nav className="nav">
-      <Link to="/" className="nav-link">
-        Home
-      </Link>
       <Link to="/register" className="nav-link">
         Register
       </Link>
