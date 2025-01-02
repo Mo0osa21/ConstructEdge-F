@@ -110,6 +110,7 @@ const ProductsPage = ({ user }) => {
               {product.stockQuantity === 0 ? (
                 <p className="out-of-stock">Out of Stock</p>
               ) : (
+                !user?.isAdmin && (
                 <div className="quantity-container">
                   <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
                   <input
@@ -123,9 +124,13 @@ const ProductsPage = ({ user }) => {
                     className="quantity-input"
                   />
                 </div>
+                )
               )}
 
-              {product.stockQuantity > 0 && (
+
+              {product.stockQuantity > 0 && !user?.isAdmin && (
+                
+
                 <button
                   onClick={() => {
                     const quantityInput = document.getElementById(
@@ -145,19 +150,29 @@ const ProductsPage = ({ user }) => {
                 >
                   Add to Cart
                 </button>
+                
               )}
+                
+              
+             
+             {user?.isAdmin && (
+                <>
+                  <button
+                    onClick={() => navigate(`/edit-product/${product._id}`)}
+                    className="action-button edit-button"
+                  >
+                    Edit
+                  </button>
 
-              <button
-                onClick={() => navigate(`/edit-product/${product._id}`)}
-                className="action-button edit-button"
-                aria-label={`Edit details for ${product.name}`}
-              >
-                Edit
-              </button>
-
-              <button type="button" onClick={() => handleDelete(product._id)}>
-                Delete Product
-              </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(product._id)}
+                    className="action-button delete-button"
+                  >
+                    Delete Product
+                  </button>
+                </>
+              )}
             </div>
           ))
         ) : (
