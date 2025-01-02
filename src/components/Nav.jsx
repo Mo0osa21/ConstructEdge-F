@@ -4,7 +4,6 @@ const Nav = ({ user, handleLogOut }) => {
   if (user?.isAdmin) {
     userOptions = (
       <nav className="nav">
-        <h3 className="nav-welcome">Welcome {user.name} to Construct Edge!</h3>
         <Link to="/products" className="nav-link">
           Products
         </Link>
@@ -30,7 +29,6 @@ const Nav = ({ user, handleLogOut }) => {
   } else if (user) {
     userOptions = (
       <nav>
-        <h3 className="nav-welcome">Welcome {user.name} to Construct Edge!</h3>
         <Link to="/products" className="nav-link">
           products
         </Link>

@@ -67,6 +67,13 @@ const CartPage = () => {
     try {
       const updatedCart = await removeCartItem(productId)
       setCart(updatedCart)
+
+      // Update quantities to remove the deleted product
+      setQuantities((prevQuantities) => {
+        const updatedQuantities = { ...prevQuantities }
+        delete updatedQuantities[productId]
+        return updatedQuantities
+      })
     } catch (error) {
       toast.error('Error removing cart item:', error.message)
     }
@@ -117,7 +124,8 @@ const CartPage = () => {
 
   const calculateTotalPrice = () => {
     return cart.products.reduce((total, item) => {
-      return total + item.product.price * quantities[item.product._id]
+      const quantity = quantities[item.product._id] || 1 // Default to 1 if missing
+      return total + item.product.price * quantity
     }, 0)
   }
 
@@ -154,7 +162,10 @@ const CartPage = () => {
                 />
               </td>
               <td>
-                ${item.product.price * (quantities[item.product._id] || 1)}
+                $
+                {(
+                  item.product.price * (quantities[item.product._id] || 1)
+                ).toFixed(2)}
               </td>
               <td>
                 <button
