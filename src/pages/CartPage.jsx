@@ -76,7 +76,6 @@ const CartPage = () => {
     try {
       let needsUpdate = false
 
-      // Validate cart items against real-time stock
       for (const item of cart.products) {
         const product = await getProduct(item.product._id)
         const desiredQuantity = quantities[item.product._id]
@@ -101,7 +100,6 @@ const CartPage = () => {
         return
       }
 
-      // Proceed with order placement if no updates are needed
       await placeOrder()
       toast.success('Order placed successfully!')
       setCart(null)
