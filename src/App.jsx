@@ -21,7 +21,7 @@ import UserOrders from './pages/UserOrders'
 import EditProductPage from './pages/EditProductPage'
 import ProductDetails from './pages/ProductDetails'
 import Profile from './pages/Profile'
-import Footer from './components/Footer'
+
 
 const App = () => {
   const [user, setUser] = useState(null)

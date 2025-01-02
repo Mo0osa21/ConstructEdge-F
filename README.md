@@ -11,8 +11,15 @@ Construct Edge is your go to website to purchase construction equipment and rela
 - Database: MongoDB
 
 ## Future enhancements
+- will send OTP message to the user  for more security.
+- will add a search bar to allow the user to browse more accurately.
+- will integrate payment methods.
+
 
 ## Unsolved problems
+- when the user remove a product the price of other products in cart crash and says NAN.
+
+
 
 ## trello board
 
@@ -20,11 +27,11 @@ Construct Edge is your go to website to purchase construction equipment and rela
 
 ## ERD picture
 
-![ERD](<./Database%20ER%20diagram%20(crow's%20foot)%20(1).jpeg>)
+![ERD](/Database%20ER%20diagram%20(crow's%20foot)%20(3).jpeg)
 
 ## components diagram
 
-![diagram](./Blank%20board.jpeg)
+![diagram](/Blank%20board%20(1).jpeg)
 
 ## wireframe
 
