@@ -90,7 +90,7 @@ const Offers = ({user}) => {
                 </Link>
                 <h2 className="product-name">{product.name}</h2>
 
-                <p>Price: ${product.price}</p>
+                <p>Price: ${product.discountedPrice}</p>
                 <p className="product-discount">
                   Discount: {product.discount}%
                 </p>

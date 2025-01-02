@@ -105,7 +105,7 @@ const ProductsPage = ({ user }) => {
               </Link>
               <h2>{product.name}</h2>
 
-              <p>Price: ${product.price}</p>
+              <p>Price: ${product.discountedPrice}</p>
 
               {product.stockQuantity === 0 ? (
                 <p className="out-of-stock">Out of Stock</p>

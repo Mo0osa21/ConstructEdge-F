@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const ProductDetails = () => {
   const { productId } = useParams()
+  const navigate = useNavigate() // Hook to navigate
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -45,6 +46,7 @@ const ProductDetails = () => {
       toast.error('Failed to add product to cart')
     }
   }
+
   const handleQuantityChange = (productId, event) => {
     const newQuantity = Math.max(1, event.target.value)
     setQuantities((prevQuantities) => ({
@@ -53,17 +55,40 @@ const ProductDetails = () => {
     }))
   }
 
+  const handleBackButton = () => {
+    navigate('/products') // Navigate to the /products route
+  }
+
   if (loading) return <p>Loading...</p>
   if (error) return <p style={{ color: 'red' }}>{error}</p>
   if (!product) return <p>Product not found.</p>
 
   return (
-    <div className="product-details">
+    <div className="product-details" style={{ position: 'relative' }}>
       <ToastContainer />
+      <button
+        onClick={handleBackButton}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          fontSize: '14px',
+          padding: '5px 10px',
+          backgroundColor: '#ff6f00',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          zIndex: 10
+        }}
+        className="back-button"
+      >
+        Back
+      </button>
       <h1>{product.name}</h1>
       <img src={product.imageUrl} alt={product.name} />
       <p>{product.description}</p>
-      <p>Price: ${product.price}</p>
+      <p>Price: ${product.discountedPrice}</p>
       <p>Stock Quantity: {product.stockQuantity}</p>
       <p>Category: {product.category?.name || 'No Category'}</p>
       <div className="quantity-container">
