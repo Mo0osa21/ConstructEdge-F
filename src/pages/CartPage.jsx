@@ -14,11 +14,16 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [quantities, setQuantities] = useState({})
+  const [version, setVersion] = useState(0) // Forcing re-render
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const cartData = await getCart()
+        if (!cartData || !cartData.products) {
+          throw new Error('Cart data is empty or malformed')
+        }
+        console.log('Fetched cart:', cartData)
         setCart(cartData)
         const initialQuantities = {}
         cartData.products.forEach((item) => {
@@ -27,18 +32,21 @@ const CartPage = () => {
         setQuantities(initialQuantities)
       } catch (error) {
         console.error('Error fetching cart:', error.message)
-        toast.error('Failed to load cart. Please try again.')
-        setError('Failed to load cart. Please try again.')
+        toast.error('Failed to load cart. Please refresh.')
+        setError('Cart is unavailable. Please refresh.')
       } finally {
         setLoading(false)
       }
     }
 
     fetchCart()
-  }, [])
+  }, [version])
+
+  const forceUpdate = () => setVersion((prev) => prev + 1)
 
   const handleQuantityChange = async (productId, event) => {
-    const newQuantity = Math.max(1, event.target.value)
+    event.preventDefault() // Prevent default behavior
+    const newQuantity = Math.max(1, Number(event.target.value))
 
     try {
       const product = await getProduct(productId)
@@ -46,20 +54,21 @@ const CartPage = () => {
         toast.error(
           `Only ${product.stockQuantity} units of "${product.name}" are available.`
         )
-        setQuantities((prevQuantities) => ({
-          ...prevQuantities,
+        setQuantities((prev) => ({
+          ...prev,
           [productId]: product.stockQuantity
         }))
         return
       }
 
       await updateCartItem(productId, newQuantity)
-      setQuantities((prevQuantities) => ({
-        ...prevQuantities,
+      setQuantities((prev) => ({
+        ...prev,
         [productId]: newQuantity
       }))
+      forceUpdate() // Ensure re-render
     } catch (error) {
-      toast.error('Error updating cart item quantity:', error.message)
+      toast.error('Error updating quantity. Please try again.')
     }
   }
 
@@ -67,11 +76,10 @@ const CartPage = () => {
     try {
       const updatedCart = await removeCartItem(productId)
       setCart(updatedCart)
-
-      // Update quantities to remove the deleted product
-      setQuantities((prevQuantities) => {
-        const updatedQuantities = { ...prevQuantities }
+      setQuantities((prev) => {
+        const updatedQuantities = { ...prev }
         delete updatedQuantities[productId]
+        forceUpdate()
         return updatedQuantities
       })
     } catch (error) {
@@ -92,8 +100,8 @@ const CartPage = () => {
           toast.error(
             `Adjusted "${item.product.name}" quantity to ${product.stockQuantity} due to stock limitations.`
           )
-          setQuantities((prevQuantities) => ({
-            ...prevQuantities,
+          setQuantities((prev) => ({
+            ...prev,
             [item.product._id]: product.stockQuantity
           }))
           await updateCartItem(item.product._id, product.stockQuantity)
@@ -109,10 +117,11 @@ const CartPage = () => {
 
       await placeOrder()
       toast.success('Order placed successfully!')
-      setCart(null)
+      setCart({ products: [] })
+      setQuantities({})
     } catch (error) {
-      toast.error('Error placing order:', error.message)
-      setError('Failed to place the order. Please try again.')
+      toast.error('Failed to place the order. Please try again.')
+      setError('Checkout failed. Please try again.')
     }
   }
 
@@ -124,7 +133,7 @@ const CartPage = () => {
 
   const calculateTotalPrice = () => {
     return cart.products.reduce((total, item) => {
-      const quantity = quantities[item.product._id] || 1 // Default to 1 if missing
+      const quantity = quantities[item.product._id] || 1
       return total + item.product.price * quantity
     }, 0)
   }
