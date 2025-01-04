@@ -119,8 +119,8 @@ const ProductsPage = ({ user }) => {
                       name="quantity"
                       min="1"
                       max={product.stockQuantity}
-                      value={quantities[product._id] || 1} // Controlled input
-                      onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
+                      value={quantities[product._id] || 1}
+                      onChange={(e) => handleQuantityChange(product._id, e)}
                       className="quantity-input"
                     />
                   </div>
@@ -140,9 +140,9 @@ const ProductsPage = ({ user }) => {
                       return
                     }
 
-                    handleAddToCart(product._id, quantity, product.price) // Pass the product's price
+                    handleAddToCart(product._id, quantity, product.price)
                   }}
-                  className="action-button add-to-cart"
+                  className="cart-buttonp"
                   aria-label={`Add ${product.name} to cart`}
                 >
                   Add to Cart
@@ -153,7 +153,7 @@ const ProductsPage = ({ user }) => {
                 <>
                   <button
                     onClick={() => navigate(`/edit-product/${product._id}`)}
-                    className="action-button edit-button"
+                    className="edit-buttonp"
                   >
                     Edit
                   </button>
@@ -161,6 +161,7 @@ const ProductsPage = ({ user }) => {
                   <button
                     type="button"
                     onClick={() => handleDelete(product._id)}
+                    className="delete-buttonp"
                   >
                     Delete Product
                   </button>

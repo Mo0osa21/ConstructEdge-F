@@ -15,9 +15,8 @@ const AdminProductForm = () => {
     discount: ''
   })
 
-  const [categories, setCategories] = useState([]) // To store categories
+  const [categories, setCategories] = useState([])
 
-  // Fetch categories when the component loads
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -40,7 +39,6 @@ const AdminProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Client-side validation for discount
     if (productData.discount > 100) {
       toast.error('Discount cannot exceed 100%. Please adjust the value.')
       return

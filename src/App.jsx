@@ -6,8 +6,6 @@ import SignIn from './pages/SignIn'
 import Home from './pages/Home'
 import CategoryForm from './components/CategoryForm'
 
-
-
 import ProductsPage from './pages/Products'
 import AdminPage from './pages/AdminPage'
 
@@ -21,7 +19,6 @@ import UserOrders from './pages/UserOrders'
 import EditProductPage from './pages/EditProductPage'
 import ProductDetails from './pages/ProductDetails'
 import Profile from './pages/Profile'
-
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -63,7 +60,10 @@ const App = () => {
             path="/edit-product/:productId"
             element={<EditProductPage />}
           />
-          <Route path="/product/:productId" element={<ProductDetails />} />
+          <Route
+            path="/product/:productId"
+            element={<ProductDetails user={user} />}
+          />
           <Route path="/categories" element={<CategoryForm />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route

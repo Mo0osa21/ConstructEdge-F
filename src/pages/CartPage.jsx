@@ -45,7 +45,7 @@ const CartPage = () => {
   const forceUpdate = () => setVersion((prev) => prev + 1)
 
   const handleQuantityChange = async (productId, event) => {
-    event.preventDefault() // Prevent default behavior
+    event.preventDefault()
     const newQuantity = Math.max(1, Number(event.target.value))
 
     try {

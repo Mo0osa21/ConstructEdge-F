@@ -21,7 +21,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Clear previous toast messages
     toast.dismiss()
 
     if (!formValues.name) {
@@ -34,7 +33,6 @@ const Register = () => {
       return
     }
 
-    // Check if the email is in a valid format
     if (!/\S+@\S+\.\S+/.test(formValues.email)) {
       toast.error('Invalid email format')
       return
