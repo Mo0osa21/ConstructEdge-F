@@ -30,9 +30,15 @@ const CategoryDropdown = ({ selectedCategory, onCategoryChange }) => {
         onChange={(event) => onCategoryChange(event.target.value)}
         className="category-dropdown"
       >
-        <option value="">All Categories</option>
+        <option value="" className="dropdown-item">
+          All Categories
+        </option>
         {categories.map((category) => (
-          <option key={category._id} value={category._id}>
+          <option
+            key={category._id}
+            value={category._id}
+            className="dropdown-item"
+          >
             {category.name}
           </option>
         ))}

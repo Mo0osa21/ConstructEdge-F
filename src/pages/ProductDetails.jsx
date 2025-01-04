@@ -4,10 +4,12 @@ import { getProduct } from '../services/ProductServices'
 import { addToCart } from '../services/CartServices'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Reviews from '../components/Reviews'
+import { MdArrowBackIosNew } from 'react-icons/md'
 
-const ProductDetails = () => {
+const ProductDetails = ({ user }) => {
   const { productId } = useParams()
-  const navigate = useNavigate() // Hook to navigate
+  const navigate = useNavigate()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -56,7 +58,7 @@ const ProductDetails = () => {
   }
 
   const handleBackButton = () => {
-    navigate('/products') // Navigate to the /products route
+    navigate('/products')
   }
 
   if (loading) return <p>Loading...</p>
@@ -83,7 +85,7 @@ const ProductDetails = () => {
         }}
         className="back-button"
       >
-        Back
+        <MdArrowBackIosNew />
       </button>
       <h1>{product.name}</h1>
       <img src={product.imageUrl} alt={product.name} />
@@ -116,6 +118,7 @@ const ProductDetails = () => {
       >
         Add to Cart
       </button>
+      <Reviews productId={product._id} userId={user.id} />
     </div>
   )
 }

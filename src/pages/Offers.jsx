@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Offers = ({user}) => {
+const Offers = ({ user }) => {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -99,19 +99,21 @@ const Offers = ({user}) => {
                   <p className="out-of-stock">Out of Stock</p>
                 ) : (
                   !user?.isAdmin && (
-                  <div className="quantity-container">
-                    <label htmlFor={`quantity-${product._id}`}>Quantity:</label>
-                    <input
-                      type="number"
-                      id={`quantity-${product._id}`}
-                      name="quantity"
-                      min="1"
-                      max={product.stockQuantity}
-                      value={quantities[product._id] || 1} // Controlled input
-                      onChange={(e) => handleQuantityChange(product._id, e)} // Update quantity
-                      className="quantity-input"
-                    />
-                  </div>
+                    <div className="quantity-container">
+                      <label htmlFor={`quantity-${product._id}`}>
+                        Quantity:
+                      </label>
+                      <input
+                        type="number"
+                        id={`quantity-${product._id}`}
+                        name="quantity"
+                        min="1"
+                        max={product.stockQuantity}
+                        value={quantities[product._id] || 1}
+                        onChange={(e) => handleQuantityChange(product._id, e)}
+                        className="quantity-input"
+                      />
+                    </div>
                   )
                 )}
 
@@ -128,30 +130,33 @@ const Offers = ({user}) => {
                         return
                       }
 
-                      handleAddToCart(product._id, quantity, product.price) // Pass the product's price
+                      handleAddToCart(product._id, quantity, product.price)
                     }}
-                    className="action-button add-to-cart"
+                    className="cart-buttonp"
                     aria-label={`Add ${product.name} to cart`}
                   >
                     Add to Cart
                   </button>
                 )}
-                 {user?.isAdmin && (
-                <>
+                {user?.isAdmin && (
+                  <>
+                    <button
+                      onClick={() => navigate(`/edit-product/${product._id}`)}
+                      className="edit-buttonp"
+                      aria-label={`Edit details for ${product.name}`}
+                    >
+                      Edit
+                    </button>
 
-                <button
-                  onClick={() => navigate(`/edit-product/${product._id}`)}
-                  className="action-button edit-button"
-                  aria-label={`Edit details for ${product.name}`}
-                >
-                  Edit
-                </button>
-
-                <button type="button" onClick={() => handleDelete(product._id)}>
-                  Delete Product
-                </button>
-                </>
-              )}
+                    <button
+                      type="button"
+                      className="delete-buttonp"
+                      onClick={() => handleDelete(product._id)}
+                    >
+                      Delete Product
+                    </button>
+                  </>
+                )}
               </div>
             ))}
           </div>

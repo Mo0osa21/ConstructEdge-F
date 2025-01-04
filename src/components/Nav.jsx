@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+
 const Nav = ({ user, handleLogOut }) => {
   let userOptions
   if (user?.isAdmin) {
@@ -30,19 +31,19 @@ const Nav = ({ user, handleLogOut }) => {
     userOptions = (
       <nav>
         <Link to="/products" className="nav-link">
-          products
+          Products
         </Link>
         <Link to="Offers" className="nav-link">
           Offers
         </Link>
-        <Link to="/cart" className="nav-link">
-          cart
-        </Link>
-        <Link to="/userorders" className="nav-link">
-          orders
-        </Link>
 
-        <Link onClick={handleLogOut} to="/">
+        <Link to="/userorders" className="nav-link">
+          Orders
+        </Link>
+        <Link to="/cart" className="nav-link">
+          Cart
+        </Link>
+        <Link onClick={handleLogOut} to="/" className="nav-link">
           Sign Out
         </Link>
       </nav>

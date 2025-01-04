@@ -1039,7 +1039,7 @@ h3 {
   font-size: 14px;
   border: 1px solid var(--input-border);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: #0606061d;
   color: var(--text-color);
   width: 98%;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -1047,9 +1047,17 @@ h3 {
 }
 
 .category-dropdown:focus {
-  border-color: var(--highlight-color);
   outline: none;
-  box-shadow: 0 0 5px rgba(255, 111, 0, 0.5);
+}
+
+.dropdown-item {
+  padding: 10px;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #ff6f00;
 }
 
 /* Error Message */
@@ -1078,4 +1086,114 @@ h3 {
 
 main {
   padding-bottom: 20px;
+}
+
+.reviews-section {
+  margin-top: 20px;
+}
+
+.reviews-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.reviews-list li {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.review-form {
+  margin-top: 20px;
+}
+
+.review-form textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.review-form button {
+  background-color: #ff6f00;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.review-form button:hover {
+  background-color: #da6913;
+}
+
+.reviews-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.review-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.056);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.review-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.review-actions button:hover {
+  color: black;
+}
+
+.review-form textarea {
+  width: 97%;
+  min-height: 60px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.edit-buttonp {
+  background-color: var(--highlight-color); /* Bold orange button */
+  color: var(--text-color); /* Light text color */
+
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 5px;
+}
+.delete-buttonp {
+  background-color: red; /* Bold orange button */
+  color: var(--text-color); /* Light text color */
+
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.cart-buttonp {
+  background-color: var(--highlight-color); /* Bold orange button */
+  color: var(--text-color); /* Light text color */
+
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 10px;
 }
