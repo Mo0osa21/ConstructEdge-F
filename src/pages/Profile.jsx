@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { updateUser } from '../services/Auth'
 
-const Profile = ({ user, setUser }) => {
+const Profile = ({ userId, setUser, user }) => {
   const [formValues, setFormValues] = useState({
     username: user?.username || '',
     password: ''
@@ -14,7 +15,7 @@ const Profile = ({ user, setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const updateUser = await updateUser(user.id, formValues)
+        await updateUser(userId, formValues)
       setUser(updateUser)
       setMessage('Profile is updated!')
     } catch (err) {
@@ -33,7 +34,16 @@ const Profile = ({ user, setUser }) => {
           <input
             type="text"
             name="username"
-            value={formvalues.username}
+            value={formValues.username}
+            onChange={handleChange}
+            required
+          />
+
+<label>password:</label>
+          <input
+            type="text"
+            name="password"
+            value={formValues.password}
             onChange={handleChange}
             required
           />

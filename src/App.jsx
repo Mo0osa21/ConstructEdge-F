@@ -67,7 +67,7 @@ const App = () => {
           <Route path="/categories" element={<CategoryForm />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route
-            path="/profile"
+            path="/update"
             element={<Profile user={user} setUser={setUser} />}
           />
         </Routes>
